@@ -86,11 +86,7 @@ php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvid
 php artisan migrate
 ```
 
-### 8. Set Up Role and Permission Functionality
-- Make sure the role and permission system is properly integrated using the Spatie package.
-- Refer to the `RoleController` and any relevant middleware you've set up to manage user roles and permissions.
-
-### 9. Run Seeders
+### 8. Run Seeders
 
 If you have seeders set up for initial data, you can run them with the following command:
 
