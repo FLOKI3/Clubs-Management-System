@@ -62,60 +62,18 @@ npm run build
 ```
 
 ### 5. Migrate the Database
-Run the migrations to create tables in your database:
+Run the migrations to set up your database schema and seed the database:
 
 ```bash
-php artisan migrate
+php artisan migrate:fresh --seed
 ```
 
-### 6. Install Breeze for Authentication
-Ensure that Laravel Breeze is already installed. If not, follow the command below:
+### 6. Start the Development Server
+Finally, start the Laravel development server::
 
 ```bash
-composer require laravel/breeze --dev
-php artisan breeze:install
-npm install && npm run dev
+php artisan serve
 ```
-
-### 7. Install Spatie Permissions
-Ensure that the Spatie Permissions package is installed. If not, install it with:
-
-```bash
-composer require spatie/laravel-permission
-```
-
-After installing, publish the config file and migrate the tables for roles and permissions:
-
-```bash
-php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
-php artisan migrate
-```
-
-### 8. Run Seeders
-
-If you have seeders set up for initial data, you can run them with the following command:
-
-```bash
-php artisan db:seed
-```
-
-
----
-
-### Commands to Run
-To ensure your project is running correctly, use the following commands:
-
-1. **Serve the project locally:**
-   ```bash
-   php artisan serve
-   ```
-
-2. **Run the project in development mode:**
-   ```bash
-   npm run dev
-   ```
-
----
 
 ### Accounts
 
