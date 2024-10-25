@@ -110,5 +110,20 @@ To ensure your project is running correctly, use the following commands:
    npm run dev
    ```
 
+---
 
+## Accounts
+
+- **Admin Account**  
+  - **Email:** `admin@gmail.com`  
+  - **Password:** `password`  
+- **Manager Account**  
+  - **Email:** `manager@gmail.com`  
+  - **Password:** `password`  
+- **Developer Account**  
+  - **Email:** `developer@gmail.com`  
+  - **Password:** `password`  
+- **User Account**  
+  - **Email:** `user@gmail.com`  
+  - **Password:** `password`  
 
