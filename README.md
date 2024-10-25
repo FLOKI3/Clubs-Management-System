@@ -15,8 +15,11 @@ Run the following command in your terminal to clone the project repository:
 
 ```bash
 git clone --branch master https://github.com/FLOKI3/Laravel.git
-cd Laravel
+```
 
+After cloning, go into the project directory:
+```bash
+cd Laravel
 ```
 
 ### 2. Install Composer Dependencies
