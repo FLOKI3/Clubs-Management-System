@@ -18,6 +18,9 @@ class AdminSeeder extends Seeder
     {
         User::create([
             'name' => 'admin',
+            'first_name' => 'Super',
+            'last_name' => 'admin',
+            'phone_number' => '123456789',
             'email' => 'admin@gmail.com',
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
@@ -25,6 +28,9 @@ class AdminSeeder extends Seeder
         
         User::create([
             'name' => 'manager',
+            'first_name' => 'Val',
+            'last_name' => 'halla',
+            'phone_number' => '123456789',
             'email' => 'manager@gmail.com',
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
@@ -32,6 +38,9 @@ class AdminSeeder extends Seeder
 
         User::create([
             'name' => 'developer',
+            'first_name' => 'Val',
+            'last_name' => 'halla',
+            'phone_number' => '123456789',
             'email' => 'developer@gmail.com',
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
@@ -39,6 +48,9 @@ class AdminSeeder extends Seeder
         
         User::create([
             'name' => 'user',
+            'first_name' => 'Val',
+            'last_name' => 'halla',
+            'phone_number' => '123456789',
             'email' => 'user@gmail.com',
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
