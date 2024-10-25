@@ -1,6 +1,6 @@
 
 
-## README: Setting up Laravel with Breeze, Tailwind CSS, Spatie Permissions, and Medialibrary
+# README: Setting up Laravel with Breeze, Tailwind CSS, Spatie Permissions, and Medialibrary
 
 ### Requirements
 - PHP >= 8.3
