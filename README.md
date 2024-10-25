@@ -14,11 +14,8 @@
 Run the following command in your terminal to clone the project repository:
 
 ```bash
-git clone <repository-url>
-cd <project-directory>
+git clone https://github.com/FLOKI3/Laravel.git
 ```
-
-Replace `<repository-url>` and `<project-directory>` with your repository's URL and the folder name.
 
 #### 2. Install Composer Dependencies
 After cloning the project, install the PHP dependencies using Composer:
@@ -89,32 +86,9 @@ php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvid
 php artisan migrate
 ```
 
-#### 8. Install Laravel Medialibrary
-Ensure that Medialibrary is installed. If not, install it with:
-
-```bash
-composer require spatie/laravel-medialibrary
-```
-
-Publish the configuration file:
-
-```bash
-php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="migrations"
-php artisan migrate
-```
-
-You may also publish the config file if needed:
-
-```bash
-php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="config"
-```
-
-#### 9. Set Up Role and Permission Functionality
+#### 8. Set Up Role and Permission Functionality
 - Make sure the role and permission system is properly integrated using the Spatie package.
 - Refer to the `RoleController` and any relevant middleware you've set up to manage user roles and permissions.
-
-#### 10. Set Up Profile Picture Functionality
-Ensure that user profile picture functionality is added with Laravel Medialibrary. This can be done similarly to handling user information in your app.
 
 ---
 
@@ -131,7 +105,5 @@ To ensure your project is running correctly, use the following commands:
    npm run dev
    ```
 
-### Conclusion
-Your Laravel project is now set up with Breeze for authentication, Tailwind CSS for styling, Spatie Permissions for roles and permissions, and Laravel Medialibrary for media handling. Ensure all configurations and migrations are completed for smooth operation.
 
 
