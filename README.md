@@ -10,21 +10,21 @@
 
 ### Steps to Download and Set Up the Project
 
-#### 1. Clone the Laravel Project
+### 1. Clone the Laravel Project
 Run the following command in your terminal to clone the project repository:
 
 ```bash
 git clone https://github.com/FLOKI3/Laravel.git
 ```
 
-#### 2. Install Composer Dependencies
+### 2. Install Composer Dependencies
 After cloning the project, install the PHP dependencies using Composer:
 
 ```bash
 composer install
 ```
 
-#### 3. Set Up Environment Variables
+### 3. Set Up Environment Variables
 Create a `.env` file by copying `.env.example`:
 
 ```bash
@@ -48,7 +48,7 @@ DB_USERNAME=your_database_username
 DB_PASSWORD=your_database_password
 ```
 
-#### 4. Install Node Dependencies
+### 4. Install Node Dependencies
 Install the required JavaScript packages and build the frontend assets:
 
 ```bash
@@ -56,14 +56,14 @@ npm install
 npm run build
 ```
 
-#### 5. Migrate the Database
+### 5. Migrate the Database
 Run the migrations to create tables in your database:
 
 ```bash
 php artisan migrate
 ```
 
-#### 6. Install Breeze for Authentication
+### 6. Install Breeze for Authentication
 Ensure that Laravel Breeze is already installed. If not, follow the command below:
 
 ```bash
@@ -72,7 +72,7 @@ php artisan breeze:install
 npm install && npm run dev
 ```
 
-#### 7. Install Spatie Permissions
+### 7. Install Spatie Permissions
 Ensure that the Spatie Permissions package is installed. If not, install it with:
 
 ```bash
@@ -86,11 +86,11 @@ php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvid
 php artisan migrate
 ```
 
-#### 8. Set Up Role and Permission Functionality
+### 8. Set Up Role and Permission Functionality
 - Make sure the role and permission system is properly integrated using the Spatie package.
 - Refer to the `RoleController` and any relevant middleware you've set up to manage user roles and permissions.
 
-### 9. Run Seeders (Optional)
+### 9. Run Seeders
 
 If you have seeders set up for initial data, you can run them with the following command:
 
