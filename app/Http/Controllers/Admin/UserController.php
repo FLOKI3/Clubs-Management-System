@@ -47,5 +47,15 @@ class UserController extends Controller
         }
         return back()->with('message', 'Role not exists');
     }
+
+    public function destroy(User $user)
+    {
+        if ($user->name === 'admin') {
+            return back()->with('message', 'You cannot delete the admin user.');
+        }
+
+        $user->delete();
+        return back()->with('message', 'User deleted successfully');
+    }
     
 }
