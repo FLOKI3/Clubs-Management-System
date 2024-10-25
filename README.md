@@ -1,11 +1,9 @@
-Here's a "Read Me" guide for downloading and setting up a Laravel project with Breeze, Tailwind CSS, Spatie Permissions, and Laravel Medialibrary. This will guide users through the process step-by-step.
 
----
 
 ## README: Setting up Laravel with Breeze, Tailwind CSS, Spatie Permissions, and Medialibrary
 
 ### Requirements
-- PHP >= 8.1
+- PHP >= 8.3
 - Composer
 - MySQL or any other database
 - Node.js & npm
