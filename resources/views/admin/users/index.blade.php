@@ -7,7 +7,8 @@
                       <thead class="bg-gray-50">
                           <tr>
                               <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase"></th>
-                              <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Name</th>
+                              <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Username</th>
+                              <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Full name</th>
                               <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Email</th>
                               <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Roles</th>
                               <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Action</th>
@@ -18,6 +19,7 @@
                               <tr>
                                 <td style="padding-left: 20px;"><img class="w-9 h-9 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Jese image"></td>
                               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{$user->name}}</td>
+                              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{$user->first_name}} {{$user->last_name}}</td>
                               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{$user->email}}</td>
                               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                   @foreach ($user->roles as $role)

@@ -3,7 +3,7 @@
         <div style="padding: 20px" class="bg-white shadow-md rounded-lg">
             <div style="width: 300px;">
                 <div style="background-color: #d2d2d2; border-radius: 12px;" class="p-3">
-                    <div>Name: <span style="font-weight: bold;">{{$user->name}}</span></div>
+                    <div>Username: <span style="font-weight: bold;">{{$user->name}}</span></div>
                     <div>Email: <span style="font-weight: bold;">{{$user->email}}</span></div>
                 </div>
 
