@@ -90,6 +90,15 @@ php artisan migrate
 - Make sure the role and permission system is properly integrated using the Spatie package.
 - Refer to the `RoleController` and any relevant middleware you've set up to manage user roles and permissions.
 
+### 9. Run Seeders (Optional)
+
+If you have seeders set up for initial data, you can run them with the following command:
+
+```bash
+php artisan db:seed
+```
+
+
 ---
 
 ### Commands to Run
