@@ -8,7 +8,7 @@
 - MySQL or any other database
 - Node.js & npm
 
-### Steps to Download and Set Up the Project
+<h2 align="center">Steps to Download and Set Up the Project</h2>
 
 ### 1. Clone the Laravel Project
 Run the following command in your terminal to clone the project repository:
