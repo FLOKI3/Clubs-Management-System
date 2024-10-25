@@ -136,6 +136,4 @@ To ensure your project is running correctly, use the following commands:
 ### Conclusion
 Your Laravel project is now set up with Breeze for authentication, Tailwind CSS for styling, Spatie Permissions for roles and permissions, and Laravel Medialibrary for media handling. Ensure all configurations and migrations are completed for smooth operation.
 
----
 
-This "Read Me" should give users a comprehensive guide on setting up and running a Laravel project with all the desired packages.
