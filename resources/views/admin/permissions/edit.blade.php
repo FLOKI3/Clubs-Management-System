@@ -49,7 +49,7 @@
                             @endforeach
                         </select>
                         <div style="margin-top: 20px;" class="flex justify-end">
-                            <button type="submit" style="background-color: blue;" class="px-4 py-2 text-white rounded-md">Submit</button>
+                            <button type="submit" style="background-color: blue;" class="px-4 py-2 text-white rounded-md">Add</button>
                             <a style="background-color: gray; margin-left: 5px;" href="{{ route('admin.permissions.index') }}" class="px-4 py-2 text-white rounded-md">Cancel</a>
                         </div>
                     </form>
