@@ -11,11 +11,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
+Route::get('/home', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->prefix('admin')->group(function() {
+Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->prefix('dashboard')->group(function() {
     Route::get('/', [IndexController::class, 'index'])->name('index');
 
     // Roles management (CRUD for roles)
