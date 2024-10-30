@@ -17,13 +17,20 @@ class PermissionController extends Controller
 
     public function create()
     {
-        return view('admin.permissions.create');
+        $roles = Role::all();
+        return view('admin.permissions.create', compact('roles'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate(['name' => ['required', 'min:3']]);
-        Permission::create($validated);
+        $validated = $request->validate(['name' => ['required', 'min:3'], 'roles' => ['nullable', 'array'],]);
+        $permissions = Permission::create($validated);
+        if (!empty($validated['roles'])) {
+            foreach ($validated['roles'] as $roleName) {
+                $role = Role::where('name', $roleName)->first();
+                $role->givePermissionTo($permissions);
+            }
+        }
         return to_route('admin.permissions.index')->with('message', 'Permission created successfully');
     }
 

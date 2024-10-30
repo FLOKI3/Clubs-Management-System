@@ -13,7 +13,18 @@
                         <span style="color: red" class="text-sm">
                             {{ $message }}
                         </span>
-                    @enderror                   
+                    @enderror   
+                    <p class="mt-4">Add Roles</p>
+                    <select name="roles[]" id="roles" multiple>
+                        @foreach ($roles as $role)
+                            <option value="{{$role->name}}">{{$role->name}}</option>
+                        @endforeach    
+                    </select>
+                    @error('roles')
+                        <span style="color: red" class="text-sm">
+                            {{ $message }}
+                        </span>
+                    @enderror                
                     <div style="margin-top: 20px;" class="flex justify-end">
                         <button type="submit" style="background-color: blue;" class="px-4 py-2 text-white rounded-md">Submit</button>
                         <a style="background-color: gray; margin-left: 5px;" href="{{route('admin.permissions.index')}}" class="px-4 py-2 text-white rounded-md">Cancel</a>
@@ -22,5 +33,21 @@
             </div>
         </div>
     </div>
+
+    <script>
+        new MultiSelectTag('roles', {
+        rounded: true,    // default true
+        shadow: true,      // default false
+        placeholder: 'Search',  // default Search...
+        tagColor: {
+            textColor: '#327b2c',
+            borderColor: '#92e681',
+            bgColor: '#eaffe6',
+        },
+        onChange: function(values) {
+            console.log(values)
+        }
+    })
+    </script>
     
 </x-admin-layout>

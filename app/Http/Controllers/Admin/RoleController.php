@@ -20,15 +20,20 @@ class RoleController extends Controller
         return view('admin.roles.index', compact('roles', 'permissions'));
     }
 
-    public function create()
+    public function create(Role $role)
     {
-        return view('admin.roles.create');
+        $permissions = Permission::all();
+        return view('admin.roles.create', compact('role', 'permissions'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate(['name' => ['required', 'min:3']]);
-        Role::create($validated);
+        $validated = $request->validate(['name' => ['required', 'min:3'], 'permissions' => ['nullable', 'array'] ]);
+        $roles = Role::create($validated);
+        if (!empty($validated['permissions'])) {
+            $roles->syncPermission($validated['permissions']);
+        }
+        
         return to_route('admin.roles.index')->with('message', 'Role created successfully');
     }
 
