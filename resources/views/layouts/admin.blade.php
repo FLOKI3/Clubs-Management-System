@@ -220,6 +220,21 @@
 <script src="https://unpkg.com/flowbite@latest/dist/flowbite.js"></script>
 <script>
     new DataTable('#example');
-  </script>
+</script>
+<script>
+    new MultiSelectTag('multiselect', {
+    rounded: true,    // default true
+    shadow: true,      // default false
+    placeholder: 'Search',  // default Search...
+    tagColor: {
+        textColor: '#327b2c',
+        borderColor: '#92e681',
+        bgColor: '#eaffe6',
+    },
+    onChange: function(values) {
+        console.log(values)
+    }
+})
+</script>
 
 </html>

@@ -15,7 +15,7 @@
                         </span>
                     @enderror   
                     <p class="mt-4">Add Roles</p>
-                    <select name="roles[]" id="roles" multiple>
+                    <select name="roles[]" id="multiselect" multiple>
                         @foreach ($roles as $role)
                             <option value="{{$role->name}}">{{$role->name}}</option>
                         @endforeach    
@@ -32,22 +32,5 @@
                 </form>
             </div>
         </div>
-    </div>
-
-    <script>
-        new MultiSelectTag('roles', {
-        rounded: true,    // default true
-        shadow: true,      // default false
-        placeholder: 'Search',  // default Search...
-        tagColor: {
-            textColor: '#327b2c',
-            borderColor: '#92e681',
-            bgColor: '#eaffe6',
-        },
-        onChange: function(values) {
-            console.log(values)
-        }
-    })
-    </script>
-    
+    </div>    
 </x-admin-layout>

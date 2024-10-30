@@ -15,7 +15,7 @@
                         </span>
                     @enderror
                     <p class="mt-4">Add permissions</p>
-                    <select name="permissions[]" id="permissions" multiple>
+                    <select name="permissions[]" id="multiselect" multiple>
                         @foreach ($permissions as $permission)
                             <option value="{{$permission->name}}">{{$permission->name}}</option>
                         @endforeach    
@@ -33,21 +33,4 @@
             </div>
         </div>
     </div>
-    
-    <script>
-        new MultiSelectTag('permissions', {
-        rounded: true,    // default true
-        shadow: true,      // default false
-        placeholder: 'Search',  // default Search...
-        tagColor: {
-            textColor: '#327b2c',
-            borderColor: '#92e681',
-            bgColor: '#eaffe6',
-        },
-        onChange: function(values) {
-            console.log(values)
-        }
-    })
-    </script>
-    
 </x-admin-layout>
