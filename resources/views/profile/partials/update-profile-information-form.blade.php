@@ -18,8 +18,7 @@
         @method('patch')
 
         <!-- Profile Picture Upload and Preview -->
-        <div class="flex items-center gap-4">
-            
+        <div class="flex flex-col items-center space-y-5 sm:flex-row sm:space-y-0">
 
             <!-- Profile Picture Preview -->
             @php
@@ -27,28 +26,28 @@
                 $imageUrl = $media ? asset('storage/' . $media->id . '/' . $media->file_name) : null;
             @endphp
             
-            <div class="mt-2">
                 @if($imageUrl)
-                    <img src="{{ $imageUrl }}" alt="Profile Picture" class="w-20 h-20 rounded-full object-cover border border-gray-300">
+                    <img class="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
+                        src="{{ $imageUrl }}"
+                        alt="avatar">
                 @else
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png" alt="Default Profile Picture" class="w-20 h-20 rounded-full object-cover border border-gray-300">
+                    <img class="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png"
+                        alt="Bordered avatar">
                 @endif
-            </div>
 
-            <div>
-                <label for="uploadFile1"
-                    class="flex bg-gray-800 hover:bg-gray-700 text-white text-base px-5 py-3 outline-none rounded w-max cursor-pointer mx-auto font-[sans-serif]">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 mr-2 fill-white inline" viewBox="0 0 32 32">
-                        <path
-                        d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z"
-                        data-original="#000000" />
-                        <path
-                        d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z"
-                        data-original="#000000" />
-                    </svg>
-                    Upload
-                    <input type="file" id='uploadFile1' class="hidden" name="profile_picture" />
-                </label>
+                <div class="flex flex-col space-y-5 sm:ml-8">
+                    <label style="cursor: pointer;" type="file" name="profile_picture"
+                        class="py-3.5 px-7 text-base font-medium text-indigo-100 focus:outline-none bg-[#202142] rounded-lg border border-indigo-200 hover:bg-indigo-900 focus:z-10 focus:ring-4 focus:ring-indigo-200 ">
+                        Change picture
+                        <input type="file" id='uploadFile1' class="hidden" name="profile_picture" />
+                    </label>
+                    <!--
+                    <button type="button"
+                        class="py-3.5 px-7 text-base font-medium text-indigo-900 focus:outline-none bg-white rounded-lg border border-indigo-200 hover:bg-indigo-100 hover:text-[#202142] focus:z-10 focus:ring-4 focus:ring-indigo-200 ">
+                        Delete picture
+                    </button>
+                    -->
                 <x-input-error class="mt-2" :messages="$errors->get('profile_picture')" />
             </div>
         </div>
