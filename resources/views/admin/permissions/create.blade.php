@@ -25,9 +25,12 @@
                             {{ $message }}
                         </span>
                     @enderror                
-                    <div style="margin-top: 20px;" class="flex justify-end">
-                        <button type="submit" style="background-color: blue;" class="px-4 py-2 text-white rounded-md">Submit</button>
-                        <a style="background-color: gray; margin-left: 5px;" href="{{route('admin.permissions.index')}}" class="px-4 py-2 text-white rounded-md">Cancel</a>
+                    <div class="mt-4 flex justify-end">
+                        <button type="submit"
+                            class="text-white bg-indigo-700  hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">Save</button>
+                        <a href="{{ route('admin.permissions.index') }}" type="button"
+                            class="ml-2 text-white bg-gray-700  hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">Cancel
+                        </a>
                     </div>
                 </form>
             </div>

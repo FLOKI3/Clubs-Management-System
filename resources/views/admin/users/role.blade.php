@@ -1,7 +1,7 @@
 <x-admin-layout>
     <div class="p-2 md:p-4">
         <div class="w-full px-6 pb-8 sm:max-w-xl sm:rounded-lg">
-            <h2 class="pl-6 text-2xl font-bold sm:text-xl">Public Profile</h2>
+            <h2 class="text-2xl font-bold sm:text-xl">Profile Information</h2>
             <div class="grid max-w-2xl mx-auto mt-8">
                 <form method="POST" action="{{ route('admin.users.update', $user->id) }}" enctype="multipart/form-data">
                     @csrf
@@ -83,13 +83,14 @@
                         <div class="flex justify-end">
                             <button type="submit"
                                 class="text-white bg-indigo-700  hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">Save</button>
-                            <a href="{{ route('admin.users.index') }}" type="submit"
-                                class="ml-2 text-white bg-gray-700  hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">Cancel</a>
+                            <a href="{{ route('admin.users.index') }}" type="button"
+                                class="ml-2 text-white bg-gray-700  hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">Cancel
+                            </a>
                         </div>
                     </div>
                 </form>
                 <div>
-                    <h3 class="text-lg font-semibold">User Roles</h3>
+                    <h2 class="text-2xl font-bold sm:text-xl">User Roles</h2>
                     <div style="width: 300px;" class="mt-4">
                         @if ($user->roles)
                             @foreach ($user->roles as $user_role)

@@ -31,7 +31,7 @@ class RoleController extends Controller
         $validated = $request->validate(['name' => ['required', 'min:3'], 'permissions' => ['nullable', 'array'] ]);
         $roles = Role::create($validated);
         if (!empty($validated['permissions'])) {
-            $roles->syncPermission($validated['permissions']);
+            $roles->syncPermissions($validated['permissions']);
         }
         
         return to_route('admin.roles.index')->with('message', 'Role created successfully');
@@ -39,9 +39,6 @@ class RoleController extends Controller
 
     public function edit(Role $role)
     {
-        if ($role->name === 'admin') {
-            return back()->with('message', 'You cannot edit the admin role.');
-        }
         $permissions = Permission::all();
         return view('admin.roles.edit', compact('role', 'permissions'));
 
@@ -56,9 +53,6 @@ class RoleController extends Controller
 
     public function destroy(Role $role)
     {
-        if ($role->name === 'admin') {
-            return back()->with('message', 'You cannot remove the admin role.');
-        }
         $role->delete();
         return back()->with('message', 'Role deleted successfully');
     }

@@ -36,7 +36,7 @@ class PermissionController extends Controller
 
     public function edit(Permission $permission)
     {
-        $roles = Role::whereNotIn('name', ['admin'])->get();
+        $roles = Role::get();
         return view('admin.permissions.edit', compact('permission', 'roles'));
     }
 

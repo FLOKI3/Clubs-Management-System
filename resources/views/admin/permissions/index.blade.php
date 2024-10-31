@@ -1,10 +1,10 @@
 <x-admin-layout>
     <div class="flex flex-col">
         @can('Create permissions')
-                <div class="flex justify-end pb-3">
-                    <a style="background-color: green; transition: background-color 0.3s;"
-                    onmouseover="this.style.backgroundColor='#28a745'"
-                    onmouseout="this.style.backgroundColor='green'" href="{{route('admin.permissions.create')}}" class="px-4 py-2 text-white rounded-md">Create Permission</a>
+                <div class="flex justify-end">
+                    <a href="{{ route('admin.permissions.create') }}" type="button"
+                        class="ml-2 text-white bg-green-700  hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Create Permission
+                    </a>
                 </div>
                 @endcan
         <div class="-m-1.5 overflow-x-auto">
