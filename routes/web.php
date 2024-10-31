@@ -18,7 +18,7 @@ Route::get('/home', function () {
 Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->prefix('dashboard')->group(function() {
     Route::get('/', [IndexController::class, 'index'])->name('index');
 
-    // Roles management (CRUD for roles)
+    // Roles management
     Route::get('/roles', [RoleController::class, 'index'])
         ->name('roles.index')
         ->middleware('permission:Manage roles');
@@ -43,7 +43,7 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
         ->name('roles.destroy')
         ->middleware('permission:Delete roles');
 
-    // Permissions management (CRUD for permissions)
+    // Permissions management
     Route::get('/permissions', [PermissionController::class, 'index'])
         ->name('permissions.index')
         ->middleware('permission:Manage permissions');
@@ -68,7 +68,7 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
         ->name('permissions.destroy')
         ->middleware('permission:Delete permissions');
 
-    // Users management (View, Assign Roles and Permissions)
+    // Users management
     Route::get('/users', [UserController::class, 'index'])
         ->name('users.index')
         ->middleware('permission:Manage users');
@@ -85,14 +85,6 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
         ->name('users.update')
         ->middleware('permission:Add roles');
 
-    // Assign and revoke permissions from users
-    Route::post('/users/{user}/permissions', [UserController::class, 'givePermission'])
-        ->name('users.permissions')
-        ->middleware('permission:Manage permissions');
-
-    Route::delete('/users/{user}/permissions/{permission}', [UserController::class, 'revokePermission'])
-        ->name('users.permissions.revoke')
-        ->middleware('permission:Manage permissions');
 });
 
 Route::middleware('auth')->group(function () {
