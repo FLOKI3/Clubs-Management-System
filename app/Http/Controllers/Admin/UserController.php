@@ -26,23 +26,7 @@ class UserController extends Controller
         return view('admin.users.role', compact('user', 'roles', 'permissions'));
     }
 
-    public function assignRole(Request $request, User $user)
-    {
-        if($user->hasRole($request->role)){
-            return back()->with('message', 'Role exists');
-        }
-        $user->assignRole($request->role);
-        return back()->with('message', 'Role assigned successfully');
-    }
-
-    public function removeRole(User $user, Role $role)
-    {
-        if($user->hasRole($role)){
-            $user->removeRole($role);
-            return back()->with('message', 'Role removed successfully');
-        }
-        return back()->with('message', 'Role not exists');
-    }
+    
 
     public function destroy(User $user)
     {
@@ -51,26 +35,35 @@ class UserController extends Controller
     }
 
     public function update(Request $request, User $user)
-{
+    {
 
-    $validatedData = $request->validate([
-        'name' => 'required|string|max:255',
-        'first_name' => 'required|string|max:255',
-        'last_name' => 'required|string|max:255',
-        'phone_number' => 'required|string|max:15',
-        'email' => 'required|email|unique:users,email,' . $user->id,
-    ]);
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:15',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'roles' => ['array', 'nullable'],
+        ]);
 
-    $user->update($validatedData);
+        $user->update($validatedData);
 
-    // Handle profile picture if present in the request
-        if ($request->hasFile('profile_picture')) {
-            $user->clearMediaCollection('profile_pictures'); // Clear existing profile picture
-            $user->addMediaFromRequest('profile_picture')->toMediaCollection('profile_pictures');
+        // Sync roles if provided, else clear all roles
+        if (isset($validatedData['roles']) && !empty($validatedData['roles'])) {
+            $roles = Role::whereIn('name', $validatedData['roles'])->get();
+            $user->syncRoles($roles);
+        } else {
+            $user->syncRoles([]); // Clear all roles if none are selected
         }
 
-    return redirect()->route('admin.users.index')->with('message', 'User profile updated successfully.');
-}
+        // Handle profile picture if present in the request
+            if ($request->hasFile('profile_picture')) {
+                $user->clearMediaCollection('profile_pictures'); // Clear existing profile picture
+                $user->addMediaFromRequest('profile_picture')->toMediaCollection('profile_pictures');
+            }
+
+        return redirect()->route('admin.users.index')->with('message', 'User profile updated successfully.');
+    }
 
     
 }

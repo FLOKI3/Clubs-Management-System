@@ -80,6 +80,21 @@
                                 class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                                 placeholder="email@mail.com" value="{{ old('email', $user->email) }}" required>
                         </div>
+                        <div class="mb-2 sm:mb-6">
+                        <label class="block mb-2 text-sm font-medium text-indigo-900 dark:text-black">Add Roles</label>
+                        <select name="roles[]" id="multiselect" multiple>
+                            @foreach ($roles as $role)
+                                <option value="{{$role->name}}"
+                                    @if($user->roles->contains($role)) selected @endif>
+                                    {{$role->name}}</option>
+                            @endforeach    
+                        </select>
+                        @error('roles')
+                            <span style="color: red" class="text-sm">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                        </div>
                         <div class="flex justify-end">
                             <button type="submit"
                                 class="text-white bg-indigo-700  hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">Save</button>
@@ -89,53 +104,6 @@
                         </div>
                     </div>
                 </form>
-                <div>
-                    <h2 class="text-2xl font-bold sm:text-xl">User Roles</h2>
-                    <div style="width: 300px;" class="mt-4">
-                        @if ($user->roles)
-                            @foreach ($user->roles as $user_role)
-                                <form method="POST"
-                                    action="{{ route('admin.users.roles.remove', [$user->id, $user_role->id]) }}"
-                                    onsubmit="return confirm('Are you sure?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button style="background-color: red; color: white; margin-bottom: 10px;"
-                                        type="submit"
-                                        class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium">
-                                        {{ $user_role->name }}
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                    </button>
-                                </form>
-                            @endforeach
-                        @endif
-                        @can('Add roles')
-                            <form method="POST" action="{{ route('admin.users.roles', $user->id) }}" class="mt-4">
-                                @csrf
-                                <label class="block mb-2 text-sm font-medium text-indigo-900 dark:text-black">Add
-                                    roles</label>
-                                <select name="role" id="role"
-                                    class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5">
-                                    @foreach ($roles as $role)
-                                        <option value="{{ $role->name }}">{{ $role->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('name')
-                                    <span style="color: red" class="text-sm">
-                                        {{ $message }}
-                                    </span>
-                                @enderror
-                                <div style="margin-top: 20px;" class="flex justify-end">
-                                    <button type="submit"
-                                        class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">Add</button>
-                                </div>
-                            </form>
-                        @endcan
-                    </div>
-                </div>
             </div>
         </div>
     </div>

@@ -43,15 +43,6 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
         ->name('roles.destroy')
         ->middleware('permission:Delete roles');
 
-    // Assign and revoke permissions for roles
-    Route::post('/roles/{role}/permissions', [RoleController::class, 'givePermission'])
-        ->name('roles.permissions')
-        ->middleware('permission:Manage permissions');
-
-    Route::delete('/roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermissionTo'])
-        ->name('roles.permissions.revoke')
-        ->middleware('permission:Manage permissions');
-
     // Permissions management (CRUD for permissions)
     Route::get('/permissions', [PermissionController::class, 'index'])
         ->name('permissions.index')
@@ -77,15 +68,6 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
         ->name('permissions.destroy')
         ->middleware('permission:Delete permissions');
 
-    // Assign and remove roles from permissions
-    Route::post('/permissions/{permission}/roles', [PermissionController::class, 'assignRole'])
-        ->name('permissions.roles')
-        ->middleware('permission:Manage permissions');
-
-    Route::delete('/permissions/{permission}/roles/{role}', [PermissionController::class, 'removeRole'])
-        ->name('permissions.roles.remove')
-        ->middleware('permission:Manage permissions');
-
     // Users management (View, Assign Roles and Permissions)
     Route::get('/users', [UserController::class, 'index'])
         ->name('users.index')
@@ -101,15 +83,6 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
 
     Route::put('/user/{user}', [UserController::class, 'update'])
         ->name('users.update')
-        ->middleware('permission:Add roles');
-
-    // Assign and remove roles from users
-    Route::post('/users/{user}/roles', [UserController::class, 'assignRole'])
-        ->name('users.roles')
-        ->middleware('permission:Add roles');
-
-    Route::delete('/users/{user}/roles/{role}', [UserController::class, 'removeRole'])
-        ->name('users.roles.remove')
         ->middleware('permission:Add roles');
 
     // Assign and revoke permissions from users

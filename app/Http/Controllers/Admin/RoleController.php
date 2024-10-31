@@ -46,9 +46,23 @@ class RoleController extends Controller
 
     public function update(Request $request, Role $role)
     {
-        $validated = $request->validate(['name' => ['required', 'min:3']]);
-        $role->update($validated);
-        return to_route('admin.roles.index')->with('message', 'Role updated successfully');
+        $validated = $request->validate([
+            'name' => ['required', 'min:3'],
+            'permissions' => ['array', 'nullable'],
+        ]);
+
+        $role->update(['name' => $validated['name']]);
+
+        if (isset($validated['permissions']) && !empty($validated['permissions'])) {
+            // Sync the provided permissions
+            $permissions = Permission::whereIn('name', $validated['permissions'])->get();
+            $role->syncPermissions($permissions);
+        } else {
+            // Remove all permissions if none are selected
+            $role->syncPermissions([]);
+        }
+
+        return redirect()->route('admin.roles.index')->with('message', 'Role updated successfully');
     }
 
     public function destroy(Role $role)
@@ -57,21 +71,4 @@ class RoleController extends Controller
         return back()->with('message', 'Role deleted successfully');
     }
 
-    public function givePermission(Request $request, Role $role)
-    {
-        if($role->hasPermissionTo($request->permission)){
-            return back()->with('message', 'Permission exists');
-        }
-        $role->givePermissionTo($request->permission);
-        return back()->with('message', 'Permission added successfully');
-    }
-
-    public function revokePermissionTo(Role $role, Permission $permission)
-    {
-        if($role->hasPermissionTo($permission)){
-            $role->revokePermissionTo($permission);
-            return back()->with('message', 'Permission revoked');
-        }
-        return back()->with('message', 'Permission not exists');
-    }
 }
