@@ -28,9 +28,6 @@ class UserController extends Controller
 
     public function assignRole(Request $request, User $user)
     {
-        if ($user->name === 'admin') {
-            return back()->with('message', 'You cannot edit this user.');
-        }
         if($user->hasRole($request->role)){
             return back()->with('message', 'Role exists');
         }
@@ -40,9 +37,6 @@ class UserController extends Controller
 
     public function removeRole(User $user, Role $role)
     {
-        if ($user->name === 'admin') {
-            return back()->with('message', 'You cannot remove roles from the admin user.');
-        }
         if($user->hasRole($role)){
             $user->removeRole($role);
             return back()->with('message', 'Role removed successfully');
@@ -52,10 +46,6 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        if ($user->name === 'admin') {
-            return back()->with('message', 'You cannot delete the admin user.');
-        }
-
         $user->delete();
         return back()->with('message', 'User deleted successfully');
     }
@@ -64,6 +54,7 @@ class UserController extends Controller
 {
 
     $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
         'first_name' => 'required|string|max:255',
         'last_name' => 'required|string|max:255',
         'phone_number' => 'required|string|max:15',
@@ -71,6 +62,12 @@ class UserController extends Controller
     ]);
 
     $user->update($validatedData);
+
+    // Handle profile picture if present in the request
+        if ($request->hasFile('profile_picture')) {
+            $user->clearMediaCollection('profile_pictures'); // Clear existing profile picture
+            $user->addMediaFromRequest('profile_picture')->toMediaCollection('profile_pictures');
+        }
 
     return redirect()->route('admin.users.index')->with('message', 'User profile updated successfully.');
 }

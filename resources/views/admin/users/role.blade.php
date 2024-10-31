@@ -7,14 +7,26 @@
                     @csrf
                     @method('PUT')
                     <div class="flex flex-col items-center space-y-5 sm:flex-row sm:space-y-0">
-                        <img class="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
-                            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGZhY2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
-                            alt="Bordered avatar">
+                        <!-- Profile Picture Preview -->
+                        @php
+                            $media = $user->getFirstMedia('profile_pictures');
+                            $imageUrl = $media ? asset('storage/' . $media->id . '/' . $media->file_name) : null;
+                        @endphp
+                        @if($imageUrl)
+                            <img class="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
+                                src="{{ $imageUrl }}"
+                                alt="avatar">
+                            @else
+                                <img class="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png"
+                                    alt="Bordered avatar">
+                        @endif
                         <div class="flex flex-col space-y-5 sm:ml-8">
-                            <button type="button"
+                            <label style="cursor: pointer;" type="file" name="profile_picture"
                                 class="py-3.5 px-7 text-base font-medium text-indigo-100 focus:outline-none bg-[#202142] rounded-lg border border-indigo-200 hover:bg-indigo-900 focus:z-10 focus:ring-4 focus:ring-indigo-200 ">
                                 Change picture
-                            </button>
+                                <input type="file" id='uploadFile1' class="hidden" name="profile_picture" />
+                            </label>
                             <!--
                             <button type="button"
                                 class="py-3.5 px-7 text-base font-medium text-indigo-900 focus:outline-none bg-white rounded-lg border border-indigo-200 hover:bg-indigo-100 hover:text-[#202142] focus:z-10 focus:ring-4 focus:ring-indigo-200 ">
@@ -76,7 +88,7 @@
                         </div>
                     </div>
                 </form>
-                <div class="mt-8">
+                <div>
                     <h3 class="text-lg font-semibold">User Roles</h3>
                     <div style="width: 300px;" class="mt-4">
                         @if ($user->roles)
