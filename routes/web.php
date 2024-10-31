@@ -75,7 +75,7 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
 
     Route::get('/users/{user}', [UserController::class, 'show'])
         ->name('users.show')
-        ->middleware('permission:Manage users');
+        ->middleware('permission:Edit users');
 
     Route::delete('/users/{user}', [UserController::class, 'destroy'])
         ->name('users.destroy')
@@ -83,7 +83,7 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
 
     Route::put('/user/{user}', [UserController::class, 'update'])
         ->name('users.update')
-        ->middleware('permission:Add roles');
+        ->middleware('permission:Edit users');
 
 });
 

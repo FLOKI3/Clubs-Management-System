@@ -16,9 +16,7 @@
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Permissions</th>
                                 <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Roles</th>
-                                @canany(['Edit permissions', 'Delete permissions'])
                                 <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Action</th>
-                                @endcanany
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">

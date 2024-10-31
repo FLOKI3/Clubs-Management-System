@@ -18,7 +18,7 @@ class RoleSeeder extends Seeder
 
         Permission::create(['name' => 'Dashboard access']);
         Permission::create(['name' => 'Manage users']);
-        Permission::create(['name' => 'Add roles']);
+        Permission::create(['name' => 'Edit users']);
         Permission::create(['name' => 'Delete users']);
         Permission::create(['name' => 'Manage roles']);
         Permission::create(['name' => 'Create roles']);
@@ -33,7 +33,7 @@ class RoleSeeder extends Seeder
             ->givePermissionTo([
                 'Dashboard access',
                 'Manage users',
-                'Add roles',
+                'Edit users',
                 'Delete users',
                 'Manage roles',
                 'Create roles',
@@ -49,7 +49,7 @@ class RoleSeeder extends Seeder
             ->givePermissionTo([
                 'Dashboard access',
                 'Manage users',
-                'Add roles',
+                'Edit users',
                 'Delete users',
                 'Manage roles',
                 'Create roles',
@@ -61,7 +61,7 @@ class RoleSeeder extends Seeder
             ->givePermissionTo([
                 'Dashboard access',
                 'Manage users',
-                'Add roles',
+                'Edit users',
                 'Delete users',
                 'Manage permissions',
                 'Create permissions',
