@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -57,5 +59,21 @@ class UserController extends Controller
         $user->delete();
         return back()->with('message', 'User deleted successfully');
     }
+
+    public function update(Request $request, User $user)
+{
+
+    $validatedData = $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'phone_number' => 'required|string|max:15',
+        'email' => 'required|email|unique:users,email,' . $user->id,
+    ]);
+
+    $user->update($validatedData);
+
+    return redirect()->route('admin.users.index')->with('message', 'User profile updated successfully.');
+}
+
     
 }

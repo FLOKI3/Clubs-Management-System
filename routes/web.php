@@ -99,6 +99,10 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
         ->name('users.destroy')
         ->middleware('permission:Delete users');
 
+    Route::put('/user/{user}', [UserController::class, 'update'])
+        ->name('users.update')
+        ->middleware('permission:Add roles');
+
     // Assign and remove roles from users
     Route::post('/users/{user}/roles', [UserController::class, 'assignRole'])
         ->name('users.roles')
