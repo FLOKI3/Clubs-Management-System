@@ -48,17 +48,15 @@ class UserController extends Controller
 
         $user->update($validatedData);
 
-        // Sync roles if provided, else clear all roles
         if (isset($validatedData['roles']) && !empty($validatedData['roles'])) {
             $roles = Role::whereIn('name', $validatedData['roles'])->get();
             $user->syncRoles($roles);
         } else {
-            $user->syncRoles([]); // Clear all roles if none are selected
+            $user->syncRoles([]);
         }
 
-        // Handle profile picture if present in the request
             if ($request->hasFile('profile_picture')) {
-                $user->clearMediaCollection('profile_pictures'); // Clear existing profile picture
+                $user->clearMediaCollection('profile_pictures');
                 $user->addMediaFromRequest('profile_picture')->toMediaCollection('profile_pictures');
             }
 

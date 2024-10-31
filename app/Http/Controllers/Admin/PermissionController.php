@@ -24,6 +24,11 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate(['name' => ['required', 'min:3'], 'roles' => ['nullable', 'array'],]);
+        
+        if (Permission::where('name', $validated['name'])->where('guard_name', 'web')->exists()) {
+            return back()->withErrors(['name' => "A permission '{$validated['name']}' already exists"]);
+        }
+        
         $permissions = Permission::create($validated);
         if (!empty($validated['roles'])) {
             foreach ($validated['roles'] as $roleName) {
@@ -47,14 +52,20 @@ class PermissionController extends Controller
             'roles' => ['array', 'nullable'],
         ]);
 
+        $existingPermission = Permission::where('name', $validated['name'])
+        ->where('guard_name', 'web')
+        ->first();
+
+        if ($existingPermission && $existingPermission->id !== $permission->id) {
+            return back()->withErrors(['name' => "A permission '{$validated['name']}' already exists."]);
+        }
+
         $permission->update(['name' => $validated['name']]);
 
         if (isset($validated['roles']) && !empty($validated['roles'])) {
-            // Sync roles if roles are provided
             $roles = Role::whereIn('name', $validated['roles'])->get();
             $permission->syncRoles($roles);
         } else {
-            // Remove all roles if none are selected
             $permission->syncRoles([]);
         }
 
