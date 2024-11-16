@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\ClubController;
 use App\Http\Controllers\Admin\IndexController;
+use App\Http\Controllers\Admin\LessonController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Admin\SessionController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -85,6 +89,18 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
         ->name('users.update')
         ->middleware('permission:Edit users');
 
+    // Clubs
+    Route::get('/clubs', [ClubController::class, 'index'])
+        ->name('clubs');
+    // Rooms
+    Route::get('/rooms', [RoomController::class, 'index'])
+        ->name('rooms');
+    // Lessons
+    Route::get('/lessons', [LessonController::class, 'index'])
+        ->name('lessons');
+    // Sessions
+    Route::get('/sessions', [SessionController::class, 'index'])
+        ->name('sessions');
 });
 
 Route::middleware('auth')->group(function () {
