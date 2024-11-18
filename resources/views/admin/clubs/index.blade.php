@@ -1,15 +1,11 @@
 <x-admin-layout>
     <div class="flex flex-col">
                 <div class="flex justify-end">
-                    <a href="" type="button"
+                    <a href="{{route('admin.clubs.create')}}" type="button"
                         class="ml-2 text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-green-600 hover:bg-green-700 focus:ring-green-800">Create Club
                     </a>
                 </div>
         <div class="-m-1.5 overflow-x-auto">
-            
-
-
-  
             <div class="p-1.5 min-w-full inline-block align-middle">
                 <div>
                     <table id="example" class="w-full divide-y divide-gray-200">
@@ -51,6 +47,6 @@
             </div>
         </div>
     </div>
-    
+
 </x-admin-layout>
 

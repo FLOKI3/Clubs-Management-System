@@ -92,6 +92,10 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
     // Clubs
     Route::get('/clubs', [ClubController::class, 'index'])
         ->name('clubs');
+    Route::get('/clubs/create', [ClubController::class, 'create'])
+        ->name('clubs.create');
+    Route::post('/clubs', [ClubController::class, 'store'])
+        ->name('clubs.store');
     // Rooms
     Route::get('/rooms', [RoomController::class, 'index'])
         ->name('rooms');
