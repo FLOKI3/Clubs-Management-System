@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Club;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class ClubController extends Controller
 {
@@ -24,9 +25,33 @@ class ClubController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate(['name' => ['required', 'min:3'], 'manager_id' => ['nullable', 'array'] ]);
-        Club::create($validated);
+        $validated = $request->validate([
+            'name' => ['required', 'min:3'],
+            'manager_id' => ['required', 'exists:users,id']
+        ]);
 
-        return to_route('admin.clubs')->with('message', 'Club created successfully');
+        // Create the club
+        $club = Club::create($validated);
+
+        // Dynamically assign the "manager" role to the manager
+        $manager = User::find($validated['manager_id']);
+        if ($manager) {
+            // Create a unique role for the manager based on the club's ID or name
+            $roleName = 'manager_of_club_' . $club->name; // Use club name or ID here
+
+            // Assign the role to the manager
+            $manager->assignRole($roleName);
+        }
+
+        // Redirect to the club index with success message
+        return to_route('admin.clubs.index')->with('message', 'Club created successfully');
     }
+
+    
+    public function destroy(Club $club)
+    {
+        $club->delete();
+        return back()->with('message', 'Club deleted successfully');
+    }
+
 }

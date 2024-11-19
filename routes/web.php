@@ -91,11 +91,13 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
 
     // Clubs
     Route::get('/clubs', [ClubController::class, 'index'])
-        ->name('clubs');
+        ->name('clubs.index');
     Route::get('/clubs/create', [ClubController::class, 'create'])
         ->name('clubs.create');
     Route::post('/clubs', [ClubController::class, 'store'])
         ->name('clubs.store');
+    Route::delete('/clubs/{club}', [ClubController::class, 'destroy'])
+        ->name('clubs.destroy');
     // Rooms
     Route::get('/rooms', [RoomController::class, 'index'])
         ->name('rooms');
