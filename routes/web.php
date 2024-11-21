@@ -92,12 +92,18 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
     // Clubs
     Route::get('/clubs', [ClubController::class, 'index'])
         ->name('clubs.index');
-    Route::get('/clubs/create', [ClubController::class, 'create'])
-        ->name('clubs.create');
-    Route::post('/clubs', [ClubController::class, 'store'])
-        ->name('clubs.store');
     Route::delete('/clubs/{club}', [ClubController::class, 'destroy'])
         ->name('clubs.destroy');
+    // Clubs Stepper
+    Route::get('/create-role', [ClubController::class, 'showStep1'])->name('clubs.step1');
+    Route::post('/create-role', [ClubController::class, 'processStep1']);
+
+    Route::get('/create-club', [ClubController::class, 'showStep2'])->name('clubs.step2');
+    Route::post('/create-club', [ClubController::class, 'processStep2']);
+
+    Route::get('/confirmation', [ClubController::class, 'showStep3'])->name('clubs.step3');
+    Route::post('/confirmation', [ClubController::class, 'submitAllSteps']);
+
     // Rooms
     Route::get('/rooms', [RoomController::class, 'index'])
         ->name('rooms');
