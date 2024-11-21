@@ -39,6 +39,7 @@
                     <div class="mt-4 w-full bg-gray-100 p-4 rounded-lg">
                         <h3 class="font-semibold text-lg">Manager Details</h3>
                         <p><strong>Username:</strong> {{ $manager->name }}</p>
+                        <p><strong>Full name:</strong> {{ $manager->first_name }} {{ $manager->last_name }}</p>
                         <p><strong>Email:</strong> {{ $manager->email }}</p>
                         <p><strong>Joined:</strong> {{ $manager->created_at->format('M d, Y') }}</p>
                     </div>
