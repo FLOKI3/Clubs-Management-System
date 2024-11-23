@@ -25,7 +25,7 @@
                 
             <div class="mt-4 max-w-sm">
                 <label for="name" class="block">Role Name</label>
-                <input type="text" name="name" id="name" value="manager_of_club_"
+                <input type="text" name="guard_name" id="name" value="manager_of_club_"
                     class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
             </div>
             @error('name')

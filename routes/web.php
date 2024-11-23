@@ -94,22 +94,32 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
         ->name('clubs.index');
     Route::delete('/clubs/{club}', [ClubController::class, 'destroy'])
         ->name('clubs.destroy');
-    // Clubs Stepper
-    Route::get('/create-role', [ClubController::class, 'showStep1'])->name('clubs.step1');
+    Route::get('/clubs/{club}/edit', [ClubController::class, 'edit'])
+        ->name('clubs.edit');
+    Route::put('/clubs/{club}', [ClubController::class, 'update'])
+        ->name('clubs.update');
+    // Create Clubs Stepper
+        // Step 1
+    Route::get('/create-role', [ClubController::class, 'showStep1'])
+        ->name('clubs.step1');
     Route::post('/create-role', [ClubController::class, 'processStep1']);
-
-    Route::get('/create-club', [ClubController::class, 'showStep2'])->name('clubs.step2');
+        // Step 2
+    Route::get('/create-club', [ClubController::class, 'showStep2'])
+        ->name('clubs.step2');
     Route::post('/create-club', [ClubController::class, 'processStep2']);
-
-    Route::get('/confirmation', [ClubController::class, 'showStep3'])->name('clubs.step3');
+        // Step 3
+    Route::get('/confirmation', [ClubController::class, 'showStep3'])
+        ->name('clubs.step3');
     Route::post('/confirmation', [ClubController::class, 'submitAllSteps']);
 
     // Rooms
     Route::get('/rooms', [RoomController::class, 'index'])
         ->name('rooms');
+
     // Lessons
     Route::get('/lessons', [LessonController::class, 'index'])
         ->name('lessons');
+
     // Sessions
     Route::get('/sessions', [SessionController::class, 'index'])
         ->name('sessions');

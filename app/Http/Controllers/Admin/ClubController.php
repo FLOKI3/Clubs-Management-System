@@ -11,40 +11,33 @@ use Spatie\Permission\Models\Role;
 
 class ClubController extends Controller
 {
-    // Step 1: Display the "Create Role" form
     public function showStep1()
     {
         return view('admin.clubs.step1');
     }
 
-    // Handle Step 1 submission
     public function processStep1(Request $request)
     {
         $validated = $request->validate([
-            'name' => ['required', 'string', 'min:3'],
+            'guard_name' => ['required', 'string', 'min:3'],
         ]);
 
-        // Store data in the session
-        Session::put('step1', ['role_name' => $validated['name']]);
+        Session::put('step1', ['role_name' => $validated['guard_name']]);
 
-        // Redirect to the next step
         return redirect()->route('admin.clubs.step2');
     }
 
-    // Step 2: Display the "Create Club" form
     public function showStep2()
     {
-        // Ensure Step 1 data is available
         if (!Session::has('step1')) {
             return redirect()->route('admin.clubs.step1')->with('error', 'Please complete Step 1 first.');
         }
 
-        $step1 = Session::get('step1'); // Get the step 1 data from session
+        $step1 = Session::get('step1'); 
         $users = User::all();
         return view('admin.clubs.step2', compact('users', 'step1'));
     }
 
-    // Handle Step 2 submission
     public function processStep2(Request $request)
     {
         $validated = $request->validate([
@@ -52,15 +45,12 @@ class ClubController extends Controller
             'manager_id' => ['required', 'exists:users,id'],
         ]);
 
-        // Store club data in session
         Session::put('step2', $validated);
         return redirect()->route('admin.clubs.step3');
     }
 
-    // Step 3: Display confirmation page
     public function showStep3()
     {
-        // Ensure Step 1 and Step 2 data are available
         if (!Session::has('step1') || !Session::has('step2')) {
             return redirect()->route('admin.clubs.step1');
         }
@@ -72,31 +62,26 @@ class ClubController extends Controller
         return view('admin.clubs.step3', compact('step1', 'step2', 'manager'));
     }
 
-    // Handle final submission
     public function submitAllSteps()
     {
-        // Retrieve all session data
         $step1 = Session::get('step1');
         $step2 = Session::get('step2');
 
-        // Create the club
         $club = Club::create([
             'name' => $step2['club_name'],
             'manager_id' => $step2['manager_id'],
+            'guard_name' => $step1['role_name']
         ]);
 
-        // Create and assign the manager role
         $manager = User::find($step2['manager_id']);
         if ($manager) {
             $roleName = $step1['role_name'];
-            Role::findOrCreate($roleName); // Ensure the role exists
+            Role::findOrCreate($roleName);
             $manager->assignRole($roleName);
         }
 
-        // Clear session data
         Session::forget(['step1', 'step2']);
 
-        // Redirect to the club index with a success message
         return redirect()->route('admin.clubs.index')->with('message', 'Club created successfully!');
     }
 
@@ -106,9 +91,41 @@ class ClubController extends Controller
         return view('admin.clubs.index', compact('clubs'));
     }
 
-    public function destroy(Club $club)
+    public function destroy(Club $club, Role $role)
     {
         $club->delete();
         return back()->with('message', 'Club deleted successfully');
+    }
+
+    public function edit(Club $club)
+    {
+        $managers = User::all();
+        return view('admin.clubs.edit', compact('club', 'managers'));
+    }
+
+    public function update(Request $request, Club $club)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'min:3'],
+            'manager_id' => ['required', 'exists:users,id'],
+        ]);
+
+        $oldManager = $club->manager;
+
+        $club->update([
+            'name'=> $validated['name'],
+            'manager_id'=> $validated['manager_id'],
+        ]);
+
+        $roleName = $club->guard_name;
+
+        if($oldManager && $oldManager->id !== $validated['manager_id']) {
+            $oldManager->removeRole($roleName);
+        }
+    
+        $newManager = User::findOrFail($validated['manager_id']);
+        $newManager->assignRole($roleName);
+
+        return redirect()->route('admin.clubs.index')->with('message', 'Club updated successfully!');
     }
 }

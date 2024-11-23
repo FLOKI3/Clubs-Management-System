@@ -7,7 +7,7 @@ use Spatie\Permission\Models\Role;
 
 class Club extends Model
 {
-    protected $fillable = ['name', 'manager_id'];
+    protected $fillable = ['name', 'manager_id', 'guard_name'];
 
 
     public function manager()
