@@ -29,15 +29,12 @@ class RoomController extends Controller
     {
         $user = Auth::user();
         
-        // If the user is a manager, fetch their club
         $club = Club::where('manager_id', $user->id)->first();
 
         if ($club) {
-            // Managers can only create rooms for their assigned club
             return view('admin.rooms.create', compact('club'));
         }
 
-        // Admins can select from all clubs
         $clubs = Club::all();
         return view('admin.rooms.create', compact('clubs'));
     }
@@ -46,24 +43,61 @@ class RoomController extends Controller
     {
         $user = Auth::user();
         
-        // Validation rules
         $validated = $request->validate([
             'name' => ['required', 'string', 'min:3'],
-            'club_id' => ['required', 'exists:clubs,id'], // Ensure club exists
+            'club_id' => ['required', 'exists:clubs,id'],
         ]);
 
-        // If the user is a manager, ensure they are creating for their own club
         if ($user->club) {
             if ($user->club->id !== (int) $validated['club_id']) {
                 return redirect()->back()->with('error', 'You can only create rooms for your assigned club.');
             }
         }
 
-        // Create the room
         Room::create($validated);
 
         return redirect()->route('admin.rooms.index')->with('message', 'Room created successfully!');
     }
+
+    public function edit(Room $room)
+    {
+        $user = Auth::user();
+
+        $club = Club::where('manager_id', $user->id)->first();
+
+        if ($club) {
+            if ($room->club_id !== $club->id) {
+                return redirect()->route('admin.rooms.index')->with('error', 'You can only edit rooms in your assigned club.');
+            }
+
+            return view('admin.rooms.edit', compact('room', 'club'));
+        }
+
+        $clubs = Club::all();
+        return view('admin.rooms.edit', compact('room', 'clubs'));
+    }
+
+
+    public function update(Request $request, Room $room)
+    {
+        $user = Auth::user();
+        
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'min:3'],
+            'club_id' => ['required', 'exists:clubs,id'],
+        ]);
+
+        if ($user->club) {
+            if ($user->club->id !== (int) $validated['club_id']) {
+                return redirect()->back()->with('error', 'You can only create rooms for your assigned club.');
+            }
+        }
+
+        $room->update($validated);
+
+        return redirect()->route('admin.rooms.index')->with('message', 'Room created successfully!');
+    }
+
 
     public function destroy(Room $room)
     {

@@ -121,6 +121,10 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
         ->name('rooms.store');
     Route::delete('/rooms/{room}', [RoomController::class, 'destroy'])
         ->name('rooms.destroy');
+    Route::get('/rooms/{room}/edit', [RoomController::class, 'edit'])
+        ->name('rooms.edit');
+    Route::put('/rooms/{room}', [RoomController::class, 'update'])
+        ->name('rooms.update');
 
     // Lessons
     Route::get('/lessons', [LessonController::class, 'index'])
