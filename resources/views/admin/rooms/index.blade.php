@@ -1,7 +1,7 @@
 <x-admin-layout>
     <div class="flex flex-col">
                 <div class="flex justify-end">
-                    <a href="" type="button"
+                    <a href="{{ route('admin.rooms.create') }}" type="button"
                         class="ml-2 text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-green-600 hover:bg-green-700 focus:ring-green-800">Create Room
                     </a>
                 </div>
@@ -35,7 +35,7 @@
                                         </svg>
                                         <span class="sr-only">Edit</span>
                                     </a>
-                                    <form method="POST" action="" onsubmit="return confirm('Are you sure?');">
+                                    <form method="POST" action="{{route('admin.rooms.destroy', $room->id)}}" onsubmit="return confirm('Are you sure?');">
                                         @csrf
                                         @method('DELETE') 
                                         <button type="submit" class="text-white focus:ring-4 focus:outline-none font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2 bg-red-600 hover:bg-red-700 focus:ring-red-800">

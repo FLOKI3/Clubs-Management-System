@@ -145,7 +145,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.rooms') }}"
+                    <a href="{{ route('admin.rooms.index') }}"
                         class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                         <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M14 19V5h4a1 1 0 0 1 1 1v11h1a1 1 0 0 1 0 2h-6Z"/>

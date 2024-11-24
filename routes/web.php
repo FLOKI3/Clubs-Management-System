@@ -114,7 +114,13 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
 
     // Rooms
     Route::get('/rooms', [RoomController::class, 'index'])
-        ->name('rooms');
+        ->name('rooms.index');
+    Route::get('/rooms/create', [RoomController::class, 'create'])
+        ->name('rooms.create');
+    Route::post('/rooms', [RoomController::class, 'store'])
+        ->name('rooms.store');
+    Route::delete('/rooms/{room}', [RoomController::class, 'destroy'])
+        ->name('rooms.destroy');
 
     // Lessons
     Route::get('/lessons', [LessonController::class, 'index'])
