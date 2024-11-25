@@ -19,7 +19,7 @@
                         @if(isset($club))
                             <input type="hidden" name="club_id" value="{{ $club->id }}">
                         @else
-                            <p class="mt-4">Add Club</p>
+                            <p class="mt-4">Edit Club</p>
                             <select name="club_id" id="club_id" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" required>
                                     @foreach ($clubs as $club)
                                         <option value="{{ $club->id }}" {{ old('club_id', $room->club_id ?? '') == $club->id ? 'selected' : '' }}>

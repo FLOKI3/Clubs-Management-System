@@ -1,13 +1,13 @@
 <x-admin-layout>
     <div class="flex flex-col items-center">
         <div style="padding: 20px" class="bg-white shadow-md rounded-lg">
-            <h1 style="text-align: center; font-size: 30px; margin-bottom: 20px; background-color:#1f2937; border-radius:12px; padding:10px; color: white;">Create Room</h1>
+            <h1 style="text-align: center; font-size: 30px; margin-bottom: 20px; background-color:#1f2937; border-radius:12px; padding:10px; color: white;">Create Lesson</h1>
             <div style="width: 300px;">
                 <form method="POST" action="{{ route('admin.lessons.update', $lesson->id) }}">
                     @csrf
                     @method('PUT')
                     <div class="max-w-sm">
-                        <label for="name" class="block">Room name</label>
+                        <label for="name" class="block">Lesson name</label>
                         <input type="text" name="name" id="name" value="{{ $lesson->name }}"
                                class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none">
                     </div>
@@ -19,7 +19,7 @@
                     @if(isset($club))
                         <input type="hidden" name="club_id" value="{{ $club->id }}">
                     @else
-                        <p class="mt-4">Add Club</p>
+                        <p class="mt-4">Edit Club</p>
                         <select name="club_id" id="club_id" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" required>
                                 @foreach ($clubs as $club)
                                     <option value="{{ $club->id }}" {{ old('club_id', $lesson->club_id ?? '') == $club->id ? 'selected' : '' }}>
