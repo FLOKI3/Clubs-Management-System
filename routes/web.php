@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ClubController;
+use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\LessonController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -140,9 +141,9 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
     Route::put('/lessons/{lesson}', [LessonController::class, 'update'])
         ->name('lessons.update');
 
-    // Sessions
-    Route::get('/sessions', [SessionController::class, 'index'])
-        ->name('sessions.index');
+    // Courses
+    Route::get('/courses', [CourseController::class, 'index'])
+        ->name('courses.index');
 });
 
 Route::middleware('auth')->group(function () {
