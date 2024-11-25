@@ -19,4 +19,9 @@ class Club extends Model
     {
         return $this->hasMany(Room::class);
     }
+
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
+    }
 }

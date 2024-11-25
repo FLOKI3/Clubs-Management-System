@@ -128,11 +128,11 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
 
     // Lessons
     Route::get('/lessons', [LessonController::class, 'index'])
-        ->name('lessons');
+        ->name('lessons.index');
 
     // Sessions
     Route::get('/sessions', [SessionController::class, 'index'])
-        ->name('sessions');
+        ->name('sessions.index');
 });
 
 Route::middleware('auth')->group(function () {
