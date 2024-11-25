@@ -129,6 +129,16 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
     // Lessons
     Route::get('/lessons', [LessonController::class, 'index'])
         ->name('lessons.index');
+    Route::get('/lessons/create', [LessonController::class, 'create'])
+        ->name('lessons.create');
+    Route::post('/lessons', [LessonController::class, 'store'])
+        ->name('lessons.store');
+    Route::delete('/lessons/{lesson}', [LessonController::class, 'destroy'])
+        ->name('lessons.destroy');
+    Route::get('/lessons/{lesson}/edit', [LessonController::class, 'edit'])
+        ->name('lessons.edit');
+    Route::put('/lessons/{lesson}', [LessonController::class, 'update'])
+        ->name('lessons.update');
 
     // Sessions
     Route::get('/sessions', [SessionController::class, 'index'])
