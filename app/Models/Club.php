@@ -24,4 +24,9 @@ class Club extends Model
     {
         return $this->hasMany(Lesson::class);
     }
+    
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
 }

@@ -17,9 +17,13 @@
         "vite": "^5.0"
     },
     "dependencies": {
+        "@fullcalendar/core": "^6.1.15",
+        "@fullcalendar/daygrid": "^6.1.15",
+        "@fullcalendar/interaction": "^6.1.15",
         "@preline/combobox": "^2.5.0",
         "@preline/select": "^2.5.1",
         "flowbite": "^2.5.2",
+        "fullcalendar": "^6.1.15",
         "preline": "^2.5.1",
         "select2": "^4.1.0-rc.0"
     }
