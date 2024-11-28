@@ -40,9 +40,9 @@
                     @enderror
                     <!-- Manager Select Dropdown -->
                     <div class="mt-4 max-w-sm">
-                        <label for="manager_id" class="block">Select Manager</label>
+                        <label for="manager_id" class="block">Add Manager</label>
                         <select name="manager_id" id="manager_id" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
-                            <option value="">Select a Manager</option>
+                            <option value="" selected disabled>Select a Manager</option>
                             @foreach($users as $user)
                                 <option value="{{ $user->id }}" {{ old('manager_id') == $user->id ? 'selected' : '' }}>
                                     {{ $user->name }}

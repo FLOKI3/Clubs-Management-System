@@ -4,6 +4,7 @@
             <h1 style="text-align: center; font-size: 30px; margin-bottom: 20px; background-color:#1f2937; border-radius:12px; padding:10px; color: white;">Edit Crouse</h1>
             <div style="width: 300px;">
                 <!-- Delete Button -->
+            @can('Delete sessions')
             <form method="POST" action="{{ route('admin.courses.destroy', $course->id) }}" class="mt-4" onsubmit="return confirm('Are you sure?');">
                 @csrf
                 @method('DELETE')
@@ -16,6 +17,7 @@
                     </button>
             </div>
             </form>
+            @endcan
             <form method="POST" action="{{ route('admin.courses.update', $course->id) }}">
                 @csrf
                 @method('PUT')

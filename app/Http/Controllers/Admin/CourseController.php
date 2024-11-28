@@ -75,7 +75,7 @@ class CourseController extends Controller
     // Assign the coach role if the user does not already have it
     if (!$coach->hasRole($roleName)) {
         $role = Role::findOrCreate($roleName);
-        $coach->assignRole($role);
+        $coach->assignRole($role, 'coach');
     }
 
     // Create the course
@@ -89,21 +89,51 @@ class CourseController extends Controller
         'guard_name' => 'web', // Ensure the guard_name is set
     ]);
 
-    return redirect()->route('admin.courses.index')->with('success', 'Course created successfully.');
+    return redirect()->route('admin.courses.index')->with('message', 'Course created successfully.');
 }
 
 public function destroy($id)
 {
+    // Find the course by ID
     $course = Course::find($id);
 
     if (!$course) {
         return redirect()->route('admin.courses.index')->with('error', 'Course not found.');
     }
 
+    // Retrieve the associated club
+    $club = $course->club;
+
+    if ($club) {
+        // Generate the dynamic role name based on the club's name
+        $roleName = 'coach_of_' . strtolower(str_replace(' ', '_', $club->name));
+
+        // Retrieve the manager of the club
+        $coach = $course->coach;
+
+        // Remove roles from the manager
+        if ($coach) {
+            if ($coach->hasRole($roleName)) {
+                $coach->removeRole($roleName); // Remove the dynamic role
+            }
+            if ($coach->hasRole('coach')) {
+                $coach->removeRole('coach'); // Remove the 'manager' role
+            }
+        }
+
+        // Delete the dynamic role from the database
+        $role = Role::where('name', $roleName)->first();
+        if ($role) {
+            $role->delete(); // Delete the role itself
+        }
+    }
+
+    // Delete the course
     $course->delete();
 
-    return redirect()->route('admin.courses.index')->with('success', 'Course deleted successfully.');
+    return redirect()->route('admin.courses.index')->with('message', 'Course, roles, and coach role removed successfully.');
 }
+
 
 public function edit($id)
 {
@@ -146,6 +176,41 @@ public function update(Request $request, $id)
     // Find the course by ID
     $course = Course::findOrFail($id);
 
+    // Get the old coach
+    $oldCoach = User::find($course->coach_id);
+
+    // Get the new coach
+    $newCoach = User::findOrFail($request->coach_id);
+
+    // Get the associated club for the course
+    $club = $course->club;
+
+    if (!$club) {
+        return redirect()->back()->with('error', 'Associated club is invalid.');
+    }
+
+    // Generate role name based on the club's name
+    $roleName = 'coach_of_' . strtolower(str_replace(' ', '_', $club->name));
+
+    // Remove roles from the old coach if applicable
+    if ($oldCoach && $oldCoach->id !== $newCoach->id) {
+        if ($oldCoach->hasRole($roleName)) {
+            $oldCoach->removeRole($roleName); // Remove the dynamic role
+        }
+        if ($oldCoach->hasRole('coach')) {
+            $oldCoach->removeRole('coach'); // Remove the 'coach' role
+        }
+    }
+
+    // Assign roles to the new coach if they do not already have them
+    if (!$newCoach->hasRole($roleName)) {
+        $role = Role::firstOrCreate(['name' => $roleName, 'guard_name' => 'web']);
+        $newCoach->assignRole($role);
+    }
+    if (!$newCoach->hasRole('coach')) {
+        $newCoach->assignRole('coach');
+    }
+
     // Update the course details
     $course->update([
         'lesson_id' => $request->lesson_id,
@@ -155,7 +220,8 @@ public function update(Request $request, $id)
         'endTime' => $request->endTime,
     ]);
 
-    return redirect()->route('admin.courses.index')->with('success', 'Course updated successfully.');
+    return redirect()->route('admin.courses.index')->with('message', 'Course updated successfully.');
 }
+
 
 }

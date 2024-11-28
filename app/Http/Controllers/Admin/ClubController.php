@@ -77,7 +77,7 @@ class ClubController extends Controller
         if ($manager) {
             $roleName = $step1['role_name'];
             Role::findOrCreate($roleName);
-            $manager->assignRole($roleName);
+            $manager->assignRole($roleName, 'manager');
         }
 
         Session::forget(['step1', 'step2']);
@@ -91,11 +91,33 @@ class ClubController extends Controller
         return view('admin.clubs.index', compact('clubs'));
     }
 
-    public function destroy(Club $club, Role $role)
+    public function destroy(Club $club)
     {
+        $roleName = $club->guard_name; // Dynamic role name
+        $manager = $club->manager; // Current manager of the club
+
+        // Remove roles from the manager
+        if ($manager) {
+            if ($manager->hasRole($roleName)) {
+                $manager->removeRole($roleName); // Remove the dynamic role from the manager
+            }
+            if ($manager->hasRole('manager')) {
+                $manager->removeRole('manager'); // Remove the 'manager' role from the manager
+            }
+        }
+
+        // Delete the dynamic role from the database
+        $role = Role::where('name', $roleName)->first();
+        if ($role) {
+            $role->delete(); // Delete the role itself
+        }
+
+        // Delete the club
         $club->delete();
-        return back()->with('message', 'Club deleted successfully');
+
+        return back()->with('message', 'Club and associated roles deleted successfully');
     }
+
 
     public function edit(Club $club)
     {
@@ -110,22 +132,31 @@ class ClubController extends Controller
             'manager_id' => ['required', 'exists:users,id'],
         ]);
 
-        $oldManager = $club->manager;
+        $roleName = $club->guard_name; // Dynamic role name
+        $oldManager = $club->manager;  // Current manager before the update
 
+        // Update club details
         $club->update([
-            'name'=> $validated['name'],
-            'manager_id'=> $validated['manager_id'],
+            'name' => $validated['name'],
+            'manager_id' => $validated['manager_id'],
         ]);
 
-        $roleName = $club->guard_name;
-
-        if($oldManager && $oldManager->id !== $validated['manager_id']) {
-            $oldManager->removeRole($roleName);
+        // Remove roles from the old manager if they exist and are being replaced
+        if ($oldManager && $oldManager->id !== $validated['manager_id']) {
+            $oldManager->removeRole($roleName); // Remove the dynamic role
+            $oldManager->removeRole('manager'); // Remove the 'manager' role
         }
-    
+
+        // Assign roles to the new manager
         $newManager = User::findOrFail($validated['manager_id']);
-        $newManager->assignRole($roleName);
+        if (!$newManager->hasRole($roleName)) {
+            $newManager->assignRole($roleName); // Assign the dynamic role
+        }
+        if (!$newManager->hasRole('manager')) {
+            $newManager->assignRole('manager'); // Assign the 'manager' role
+        }
 
         return redirect()->route('admin.clubs.index')->with('message', 'Club updated successfully!');
     }
+
 }

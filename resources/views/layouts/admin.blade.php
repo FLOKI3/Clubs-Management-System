@@ -139,6 +139,7 @@
                         <span class="ms-3">Dashboard</span>
                     </a>
                 </li>
+                @can('Manage clubs')
                 <li>
                     <a href="{{ route('admin.clubs.index') }}"
                         class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
@@ -148,6 +149,8 @@
                         <span class="ms-3">Clubs</span>
                     </a>
                 </li>
+                @endcan
+                @can('Manage rooms')
                 <li>
                     <a href="{{ route('admin.rooms.index') }}"
                         class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
@@ -158,6 +161,8 @@
                         <span class="ms-3">Rooms</span>
                     </a>
                 </li>
+                @endcan
+                @can('Manage lessons')
                 <li>
                     <a href="{{ route('admin.lessons.index') }}"
                         class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
@@ -167,6 +172,8 @@
                         <span class="ms-3">Lessons</span>
                     </a>
                 </li>
+                @endcan
+                @can('Manage sessions')
                 <li>
                     <a href="{{ route('admin.courses.index') }}"
                         class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
@@ -176,7 +183,7 @@
                         <span class="ms-3">Sessions</span>
                     </a>
                 </li>
-                
+                @endcan
                 @can('Manage users')
                 <li>
                     <a href="{{ route('admin.users.index') }}"

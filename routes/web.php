@@ -92,68 +92,96 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
 
     // Clubs
     Route::get('/clubs', [ClubController::class, 'index'])
-        ->name('clubs.index');
+        ->name('clubs.index')
+        ->middleware('permission:Manage clubs');
     Route::delete('/clubs/{club}', [ClubController::class, 'destroy'])
-        ->name('clubs.destroy');
+        ->name('clubs.destroy')
+        ->middleware('permission:Delete clubs');
     Route::get('/clubs/{club}/edit', [ClubController::class, 'edit'])
-        ->name('clubs.edit');
+        ->name('clubs.edit')
+        ->middleware('permission:Edit clubs');
     Route::put('/clubs/{club}', [ClubController::class, 'update'])
-        ->name('clubs.update');
+        ->name('clubs.update')
+        ->middleware('permission:Edit clubs');
     // Create Clubs Stepper
         // Step 1
     Route::get('/create-role', [ClubController::class, 'showStep1'])
-        ->name('clubs.step1');
-    Route::post('/create-role', [ClubController::class, 'processStep1']);
+        ->name('clubs.step1')
+        ->middleware('permission:Create clubs');
+    Route::post('/create-role', [ClubController::class, 'processStep1'])
+        ->middleware('permission:Create clubs');
         // Step 2
     Route::get('/create-club', [ClubController::class, 'showStep2'])
-        ->name('clubs.step2');
-    Route::post('/create-club', [ClubController::class, 'processStep2']);
+        ->name('clubs.step2')
+        ->middleware('permission:Create clubs');
+    Route::post('/create-club', [ClubController::class, 'processStep2'])
+        ->middleware('permission:Create clubs');
         // Step 3
     Route::get('/confirmation', [ClubController::class, 'showStep3'])
-        ->name('clubs.step3');
-    Route::post('/confirmation', [ClubController::class, 'submitAllSteps']);
+        ->name('clubs.step3')
+        ->middleware('permission:Create clubs');
+    Route::post('/confirmation', [ClubController::class, 'submitAllSteps'])
+        ->middleware('permission:Create clubs');
 
     // Rooms
     Route::get('/rooms', [RoomController::class, 'index'])
-        ->name('rooms.index');
+        ->name('rooms.index')
+        ->middleware('permission:Manage rooms');
     Route::get('/rooms/create', [RoomController::class, 'create'])
-        ->name('rooms.create');
+        ->name('rooms.create')
+        ->middleware('permission:Create rooms');
     Route::post('/rooms', [RoomController::class, 'store'])
-        ->name('rooms.store');
+        ->name('rooms.store')
+        ->middleware('permission:Create rooms');
     Route::delete('/rooms/{room}', [RoomController::class, 'destroy'])
-        ->name('rooms.destroy');
+        ->name('rooms.destroy')
+        ->middleware('permission:Delete rooms');
     Route::get('/rooms/{room}/edit', [RoomController::class, 'edit'])
-        ->name('rooms.edit');
+        ->name('rooms.edit')
+        ->middleware('permission:Edit rooms');
     Route::put('/rooms/{room}', [RoomController::class, 'update'])
-        ->name('rooms.update');
+        ->name('rooms.update')
+        ->middleware('permission:Edit rooms');
 
     // Lessons
     Route::get('/lessons', [LessonController::class, 'index'])
-        ->name('lessons.index');
+        ->name('lessons.index')
+        ->middleware('permission:Manage lessons');
     Route::get('/lessons/create', [LessonController::class, 'create'])
-        ->name('lessons.create');
+        ->name('lessons.create')
+        ->middleware('permission:Create lessons');
     Route::post('/lessons', [LessonController::class, 'store'])
-        ->name('lessons.store');
+        ->name('lessons.store')
+        ->middleware('permission:Create lessons');
     Route::delete('/lessons/{lesson}', [LessonController::class, 'destroy'])
-        ->name('lessons.destroy');
+        ->name('lessons.destroy')
+        ->middleware('permission:Delete lessons');
     Route::get('/lessons/{lesson}/edit', [LessonController::class, 'edit'])
-        ->name('lessons.edit');
+        ->name('lessons.edit')
+        ->middleware('permission:Edit lessons');
     Route::put('/lessons/{lesson}', [LessonController::class, 'update'])
-        ->name('lessons.update');
+        ->name('lessons.update')
+        ->middleware('permission:Edit lessons');
 
     // Courses
     Route::get('/courses', [CourseController::class, 'index'])
-        ->name('courses.index');
+        ->name('courses.index')
+        ->middleware('permission:Manage sessions');
     Route::get('/courses/create', [CourseController::class, 'create'])
-        ->name('courses.create');
+        ->name('courses.create')
+        ->middleware('permission:Create sessions');
     Route::post('/courses', [CourseController::class, 'store'])
-        ->name('courses.store');
+        ->name('courses.store')
+        ->middleware('permission:Create sessions');
     Route::delete('/courses/{course}', [CourseController::class, 'destroy'])
-        ->name('courses.destroy');
+        ->name('courses.destroy')
+        ->middleware('permission:Delete sessions');
     Route::get('/courses/{course}/edit', [CourseController::class, 'edit'])
-        ->name('courses.edit');
+        ->name('courses.edit')
+        ->middleware('permission:Edit sessions');
     Route::put('/courses/{course}', [CourseController::class, 'update'])
-        ->name('courses.update');
+        ->name('courses.update')
+        ->middleware('permission:Edit sessions');
 });
 
 Route::middleware('auth')->group(function () {

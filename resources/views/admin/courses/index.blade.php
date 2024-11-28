@@ -1,9 +1,11 @@
 <x-admin-layout>
   <div class="flex justify-end mb-4">
+    @can('Create sessions')
       <a href="{{ route('admin.courses.create') }}" type="button"
          class="ml-2 text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-green-600 hover:bg-green-700 focus:ring-green-800">
           Create Course
       </a>
+    @endcan
   </div>
   <div id="calendar"></div>
   <script>
@@ -26,7 +28,7 @@
                   @foreach ($courses as $course)
                       {
                           id: '{{ $course->id }}',
-                          title: '{{ $course->lesson->name }} ({{ $course->room->name }})',
+                          title: '{{ $course->club->name }} ({{ $course->room->name }})',
                           start: '{{ $course->startTime }}',
                           end: '{{ $course->endTime }}',
                           color: '#007bff',
@@ -34,9 +36,19 @@
                       },
                   @endforeach
               ],
-              eventClick: function (info) {
-                  // Redirect to the edit page for the selected course
-                  window.location.href = "{{ url('dashboard/courses') }}/" + info.event.id + "/edit";
+                eventClick: function (info) {
+                  @can('Edit sessions')
+                      // Redirect to the edit page for the selected course
+                      window.location.href = "{{ url('dashboard/courses') }}/" + info.event.id + "/edit";
+                  @else
+                      // Show event information in an alert
+                      alert(
+                          'Event: ' + info.event.title + '\n' +
+                          'Description: ' + info.event.extendedProps.description + '\n' +
+                          'Start: ' + info.event.start.toLocaleString() + '\n' +
+                          'End: ' + (info.event.end ? info.event.end.toLocaleString() : 'N/A')
+                      );
+                  @endcan
               }
           });
 
