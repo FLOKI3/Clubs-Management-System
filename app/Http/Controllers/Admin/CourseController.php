@@ -36,7 +36,7 @@ class CourseController extends Controller
 
     // Check if the user has a club assigned
     if (!$club) {
-        return redirect()->route('admin.courses.index')->with('message', 'Only manager create courses.');
+        return redirect()->route('admin.courses.index')->with('message', 'Only manager can create courses.');
     }
 
     // If the user has a club, filter lessons and rooms specific to that club
