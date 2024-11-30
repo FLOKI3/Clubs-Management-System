@@ -21,7 +21,21 @@
                         <tbody class="divide-y divide-gray-200">
                             @foreach ($clubs as $club)
                                 <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{$club->name}}</td>
+                                    <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                        @php
+                                            $media = $club->getFirstMedia('clubs_logo');
+                                            $imageUrl = $media ? asset('storage/' . $media->id . '/' . $media->file_name) : null;
+                                        @endphp
+                                        
+                                        @if($imageUrl)
+                                            <img src="{{ $imageUrl }}" alt="Clubs Logo" class="w-8 h-8 rounded-full object-cover">
+                                        @else
+                                            <img src="{{ asset('assets/images/no-image.png') }}" alt="Profile Picture" class="w-8 h-8 rounded-full">
+                                        @endif
+                                        <div class="ps-3">
+                                            <div class="text-base font-semibold">{{$club->name}}</div>
+                                        </div>  
+                                    </th>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{$club->manager->name}}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                     <div class="flex justify-center items-center">

@@ -156,6 +156,11 @@ class ClubController extends Controller
             $newManager->assignRole('manager'); // Assign the 'manager' role
         }
 
+        if ($request->hasFile('clubs_logo')) {
+            $club->clearMediaCollection('clubs_logo');
+            $club->addMediaFromRequest('clubs_logo')->toMediaCollection('clubs_logo');
+        }
+
         return redirect()->route('admin.clubs.index')->with('message', 'Club updated successfully!');
     }
 
