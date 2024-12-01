@@ -139,10 +139,14 @@ public function destroy($id)
             }
         }
 
-        // Delete the dynamic role from the database if no one else is using it
-        $role = Role::where('name', $roleName)->first();
-        if ($role && $remainingClubCourses === 1) { // Delete role only if no courses remain for this club
-            $role->delete();
+        // Ensure the role is not deleted if other users have it
+        $usersWithRole = User::role($roleName)->count(); // Assuming your Role system supports this method
+        if ($usersWithRole === 0) {
+            // Delete the dynamic role only if no users are associated with it
+            $role = Role::where('name', $roleName)->first();
+            if ($role) {
+                $role->delete();
+            }
         }
     }
 
@@ -151,6 +155,7 @@ public function destroy($id)
 
     return redirect()->route('admin.courses.index')->with('message', 'Course deleted successfully.');
 }
+
 
 
 
