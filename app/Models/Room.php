@@ -12,4 +12,9 @@ class Room extends Model
     {
         return $this->belongsTo(Club::class, 'club_id');
     }
+
+    public function courses()
+    {
+        return $this->hasMany(Course::class);
+    }
 }

@@ -21,6 +21,15 @@ class LessonController extends Controller
         } else {
             $lessons = Lesson::all();
         }
+
+        foreach ($lessons as $lesson) {
+            $activeCourse = $lesson->courses()
+                ->where('startTime', '<=', now())
+                ->where('endTime', '>=', now())
+                ->exists();
+            
+            $lesson->status = $activeCourse ? 'active' : 'inactive';
+        }
     
         return view('admin.lessons.index', compact('lessons'));
     }

@@ -26,7 +26,7 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{ $lesson->club->name }}</td>
                                 <td class="px-6 py-4 text-sm font-medium text-gray-800">
                                     <div class="flex items-center">
-                                        <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Active
+                                        <div class="h-2.5 w-2.5 rounded-full {{ $lesson->status === 'active' ? 'bg-green-500' : 'bg-red-500' }} me-2"></div> {{ ucfirst($lesson->status) }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">

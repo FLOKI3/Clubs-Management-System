@@ -21,6 +21,15 @@ class RoomController extends Controller
         } else {
             $rooms = Room::all();
         }
+
+        foreach ($rooms as $room) {
+            $activeCourse = $room->courses()
+                ->where('startTime', '<=', now())
+                ->where('endTime', '>=', now())
+                ->exists();
+            
+            $room->status = $activeCourse ? 'active' : 'inactive';
+        }
     
         return view('admin.rooms.index', compact('rooms'));
     }
