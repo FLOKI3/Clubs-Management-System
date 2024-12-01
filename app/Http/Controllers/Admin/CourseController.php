@@ -16,16 +16,26 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
+        $user = Auth::user(); // Get the logged-in user
+
+        // Check if the user is a manager (assigned to a club)
         $club = Club::where('manager_id', $user->id)->first();
 
+        
+
         if ($club) {
+            // If the user is a manager, show all courses for their club
             $courses = Course::where('club_id', $club->id)->get();
-            return view('admin.courses.index', compact('courses', 'club'));
+        } elseif (Course::where('coach_id', $user->id)->exists()) {
+            // If the user is a coach, show only courses assigned to them
+            $courses = Course::where('coach_id', $user->id)->get();
+        } else {
+            // If the user is neither a manager nor a coach, show all courses
+            $courses = Course::all();
         }
-        $courses = Course::all();
 
         return view('admin.courses.index', compact('courses', 'club'));
+        
     }
 
     
@@ -108,31 +118,40 @@ public function destroy($id)
         // Generate the dynamic role name based on the club's name
         $roleName = 'coach_of_' . strtolower(str_replace(' ', '_', $club->name));
 
-        // Retrieve the manager of the club
+        // Retrieve the coach of the course
         $coach = $course->coach;
 
-        // Remove roles from the manager
         if ($coach) {
-            if ($coach->hasRole($roleName)) {
-                $coach->removeRole($roleName); // Remove the dynamic role
+            // Check if the coach has other courses in the same club
+            $remainingClubCourses = $coach->courses()->where('club_id', $club->id)->count();
+
+            // Remove the dynamic role only if no courses remain for this club
+            if ($remainingClubCourses === 1 && $coach->hasRole($roleName)) { // 1 because this course is being deleted
+                $coach->removeRole($roleName);
             }
-            if ($coach->hasRole('coach')) {
-                $coach->removeRole('coach'); // Remove the 'manager' role
+
+            // Check if the coach has any courses across all clubs
+            $remainingCourses = $coach->courses()->count();
+
+            // Remove the 'coach' role only if no courses remain
+            if ($remainingCourses === 1 && $coach->hasRole('coach')) { // 1 because this course is being deleted
+                $coach->removeRole('coach');
             }
         }
 
-        // Delete the dynamic role from the database
+        // Delete the dynamic role from the database if no one else is using it
         $role = Role::where('name', $roleName)->first();
-        if ($role) {
-            $role->delete(); // Delete the role itself
+        if ($role && $remainingClubCourses === 1) { // Delete role only if no courses remain for this club
+            $role->delete();
         }
     }
 
     // Delete the course
     $course->delete();
 
-    return redirect()->route('admin.courses.index')->with('message', 'Course, roles, and coach role removed successfully.');
+    return redirect()->route('admin.courses.index')->with('message', 'Course deleted successfully.');
 }
+
 
 
 public function edit($id)

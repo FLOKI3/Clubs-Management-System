@@ -57,4 +57,9 @@ class User extends Authenticatable implements HasMedia
     {
         $this->addMediaCollection('profile_pictures')->singleFile();
     }
+
+    public function courses()
+{
+    return $this->hasMany(Course::class, 'coach_id'); // Ensure 'coach_id' matches your database column
+}
 }
