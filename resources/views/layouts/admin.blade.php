@@ -266,7 +266,7 @@
 <script>
     new MultiSelectTag('multiselect', {
     rounded: true,    // default true
-    shadow: true,      // default false
+    shadow: false,      // default false
     placeholder: 'Search',  // default Search...
     tagColor: {
         textColor: '#327b2c',
