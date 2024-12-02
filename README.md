@@ -81,12 +81,24 @@ php artisan serve
   - **Email:** `admin@gmail.com`  
   - **Password:** `password`  
 - **Manager Account**  
-  - **Email:** `manager@gmail.com`  
+  - **Email:** `alice.johnson@gmail.com`  
   - **Password:** `password`  
-- **Developer Account**  
-  - **Email:** `developer@gmail.com`  
+  - **Email:** `bob.smith@gmail.com`  
   - **Password:** `password`  
-- **User Account**  
-  - **Email:** `user@gmail.com`  
+  - **Email:** `carol.lee@gmail.com`  
   - **Password:** `password`  
+- **Coach Account**  
+  - **Email:** `david.brown@gmail.com`  
+  - **Password:** `password`  
+  - **Email:** `evelyn.davis@gmail.com`  
+  - **Password:** `password`  
+  - **Email:** `franklin.wilson@gmail.com`  
+  - **Password:** `password`  
+  - **Email:** `grace.thomas@gmail.com`  
+  - **Password:** `password`  
+  - **Email:** `henry.martin@gmail.com`  
+  - **Password:** `password`  
+  - **Email:** `isabel.clark@gmail.com`  
+  - **Password:** `password`  
+ 
 
