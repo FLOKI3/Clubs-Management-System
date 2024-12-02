@@ -28,15 +28,15 @@
                   @foreach ($courses as $course)
                       {
                           id: '{{ $course->id }}',
-                          title: '{{ $course->club->name }} ({{ $course->room->name }})',
+                          title: '{{ $course->club->name }} ({{ $course->coach->name }})',
                           start: '{{ $course->startTime }}',
                           end: '{{ $course->endTime }}',
-                          color: '#007bff',
-                          description: 'Club: {{ $course->club->name }} | Room: {{ $course->room->name }}',
+                          color: '{{ '#' . substr(md5($course->club->id), 0, 6) }}',
+                          description: 'Club: {{ $course->club->name }} | Room: {{ $course->room->name }} | Lesson: {{ $course->lesson->name }}',
                       },
                   @endforeach
               ],
-                eventClick: function (info) {
+              eventClick: function (info) {
                   @can('Edit sessions')
                       // Redirect to the edit page for the selected course
                       window.location.href = "{{ url('dashboard/courses') }}/" + info.event.id + "/edit";
