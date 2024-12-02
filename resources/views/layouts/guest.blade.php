@@ -5,9 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>CLUBS.MA | @yield('title')</title>
 
-        <link rel="icon" href="{{ asset('assets/images/v.png') }}" type="image/png">
+        <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/png">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -20,7 +20,7 @@
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
             <div>
                 <a href="/">
-                    <img src="{{ URL('assets/images/v.png') }}" class="w-20 h-20 fill-current text-gray-500" />
+                    <img src="{{ URL('assets/images/logo.png') }}" class="h-15 fill-current text-gray-500" />
                 </a>
             </div>
 

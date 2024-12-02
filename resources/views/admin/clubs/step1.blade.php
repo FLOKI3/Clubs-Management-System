@@ -1,4 +1,5 @@
 <x-admin-layout>
+@section('title', 'CLUBS')
     <form method="POST" action="{{route('admin.clubs.step1')}}">
         @csrf
     <div class="flex items-center justify-center">

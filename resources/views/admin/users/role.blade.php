@@ -1,4 +1,5 @@
 <x-admin-layout>
+    @section('title', 'USERS')
     <div class="p-2 md:p-4">
         <div class="w-full px-6 pb-8 sm:max-w-xl sm:rounded-lg">
             <h2 class="text-2xl font-bold sm:text-xl">Profile Information</h2>

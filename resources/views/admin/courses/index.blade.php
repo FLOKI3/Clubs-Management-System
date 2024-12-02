@@ -1,4 +1,5 @@
 <x-admin-layout>
+    @section('title', 'SESSIONS')
   <div class="flex justify-end mb-4">
     @can('Create sessions')
       <a href="{{ route('admin.courses.create') }}" type="button"

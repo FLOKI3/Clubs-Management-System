@@ -1,4 +1,5 @@
 <x-admin-layout>
+    @section('title', 'PERMISSIONS')
     <div class="flex flex-col">
         @can('Create permissions')
                 <div class="flex justify-end">

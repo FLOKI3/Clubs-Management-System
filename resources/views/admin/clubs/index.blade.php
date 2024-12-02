@@ -1,4 +1,5 @@
 <x-admin-layout>
+@section('title', 'CLUBS')
     <div class="flex flex-col">
         @can('Create clubs')
                 <div class="flex justify-end">

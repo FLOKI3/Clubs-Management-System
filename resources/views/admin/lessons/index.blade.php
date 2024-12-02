@@ -1,4 +1,5 @@
 <x-admin-layout>
+    @section('title', 'LESSONS')
     <div class="flex flex-col">
         @can('Create lessons')
                 <div class="flex justify-end">

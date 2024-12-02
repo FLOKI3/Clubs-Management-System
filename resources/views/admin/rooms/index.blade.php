@@ -1,4 +1,5 @@
 <x-admin-layout>
+    @section('title', 'ROOMS')
     <div class="flex flex-col">
         @can('Create rooms')
                 <div class="flex justify-end">

@@ -1,4 +1,5 @@
 <x-admin-layout>
+    @section('title', 'ROLES')
     <div class="flex flex-col">
         @can('Create roles')
                 <div class="flex justify-end">

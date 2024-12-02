@@ -1,4 +1,5 @@
 <x-admin-layout>
+    @section('title', 'PERMISSIONS')
     <div class="flex flex-col items-center">
         <div style="padding: 20px" class="bg-white shadow-md rounded-lg">
             <h1 class="bg-gray-800" style="text-align: center; font-size: 30px; margin-bottom: 20px; border-radius:12px; padding:10px; color: white;">Create Permission</h1>

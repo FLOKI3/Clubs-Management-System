@@ -4,9 +4,9 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>VALHALLA</title>
+        <title>CLUBS.MA</title>
 
-        <link rel="icon" href="{{ asset('assets/images/v.png') }}" type="image/png">
+        <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/png">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
