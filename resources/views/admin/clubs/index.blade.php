@@ -3,7 +3,7 @@
     <div class="flex flex-col">
         @can('Create clubs')
                 <div class="flex justify-end">
-                    <a href="{{route('admin.clubs.step1')}}" type="button"
+                    <a href="{{route('admin.clubs.create')}}" type="button"
                         class="ml-2 text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-green-600 hover:bg-green-700 focus:ring-green-800">Create Club
                     </a>
                 </div>

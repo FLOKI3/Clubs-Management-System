@@ -103,24 +103,11 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
     Route::put('/clubs/{club}', [ClubController::class, 'update'])
         ->name('clubs.update')
         ->middleware('permission:Edit clubs');
-    // Create Clubs Stepper
-        // Step 1
-    Route::get('/create-role', [ClubController::class, 'showStep1'])
-        ->name('clubs.step1')
-        ->middleware('permission:Create clubs');
-    Route::post('/create-role', [ClubController::class, 'processStep1'])
-        ->middleware('permission:Create clubs');
-        // Step 2
-    Route::get('/create-club', [ClubController::class, 'showStep2'])
-        ->name('clubs.step2')
-        ->middleware('permission:Create clubs');
-    Route::post('/create-club', [ClubController::class, 'processStep2'])
-        ->middleware('permission:Create clubs');
-        // Step 3
-    Route::get('/confirmation', [ClubController::class, 'showStep3'])
-        ->name('clubs.step3')
-        ->middleware('permission:Create clubs');
-    Route::post('/confirmation', [ClubController::class, 'submitAllSteps'])
+    Route::get('/clubs/create', [ClubController::class, 'create'])
+        ->name('clubs.create')
+        ->middleware('permission:Create rooms');
+    Route::post('/clubs', [ClubController::class, 'store'])
+        ->name('clubs.store')
         ->middleware('permission:Create clubs');
 
     // Rooms
