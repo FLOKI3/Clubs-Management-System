@@ -11,7 +11,7 @@ class Club extends Model implements HasMedia
 {
     use InteractsWithMedia;
 
-    protected $fillable = ['name', 'manager_id', 'guard_name'];
+    protected $fillable = ['name', 'manager_id'];
 
 
     public function manager()

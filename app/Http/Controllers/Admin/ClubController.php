@@ -22,20 +22,15 @@ class ClubController extends Controller
         $validated = $request->validate([
             'club_name' => ['required', 'string', 'min:3'],
             'manager_id' => ['required', 'exists:users,id'],
-            'guard_name' => ['required', 'string', 'min:3'],
         ]);
 
         $club = Club::create([
             'name' => $validated['club_name'],
             'manager_id' => $validated['manager_id'],
-            'guard_name' => $validated['guard_name'],
         ]);
 
         $manager = User::findOrFail($validated['manager_id']);
-        $roleName = $validated['guard_name'];
 
-        Role::findOrCreate($roleName);
-        $manager->assignRole($roleName); 
         $manager->assignRole('manager'); 
 
         return redirect()->route('admin.clubs.index')->with('message', 'Club created successfully!');
@@ -49,22 +44,14 @@ class ClubController extends Controller
 
     public function destroy(Club $club)
     {
-        $roleName = $club->guard_name; 
         $manager = $club->manager; 
 
         if ($manager) {
-            if ($manager->hasRole($roleName)) {
-                $manager->removeRole($roleName); 
-            }
             if ($manager->hasRole('manager')) {
                 $manager->removeRole('manager');
             }
         }
 
-        $role = Role::where('name', $roleName)->first();
-        if ($role) {
-            $role->delete(); 
-        }
 
         $club->delete();
 
@@ -85,7 +72,6 @@ class ClubController extends Controller
             'manager_id' => ['required', 'exists:users,id'],
         ]);
 
-        $roleName = $club->guard_name; 
         $oldManager = $club->manager;  
 
         $club->update([
@@ -100,13 +86,10 @@ class ClubController extends Controller
                 $oldManager->removeRole('manager'); 
             }
 
-            $oldManager->removeRole($roleName);
         }
 
         $newManager = User::findOrFail($validated['manager_id']);
-        if (!$newManager->hasRole($roleName)) {
-            $newManager->assignRole($roleName); 
-        }
+       
         if (!$newManager->hasRole('manager')) {
             $newManager->assignRole('manager'); 
         }

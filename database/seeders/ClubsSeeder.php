@@ -19,21 +19,15 @@ class ClubsSeeder extends Seeder
         $managers = User::whereIn('id', [2, 3, 4])->inRandomOrder()->take(3)->get();
 
         foreach ($managers as $index => $manager) {
-            // Define a unique role name for the club
-            $roleName = "Club " . ($index + 1);
 
             // Create the club
             $club = Club::create([
                 'name' => "Club " . ($index + 1),
                 'manager_id' => $manager->id,
-                'guard_name' => $roleName,
             ]);
 
-            // Create the role if it doesn't already exist
-            Role::findOrCreate($roleName);
-
             // Assign the role to the manager
-            $manager->assignRole($roleName, 'manager');
+            $manager->assignRole('manager');
         }
     }
 }

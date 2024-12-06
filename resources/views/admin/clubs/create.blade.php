@@ -33,16 +33,6 @@
                 @enderror
             </div>
 
-            <!-- Guard Name -->
-            <div class="mb-4">
-                <label for="guard_name" class="block text-sm font-medium text-gray-700">Role Name (Guard Name)</label>
-                <input type="text" name="guard_name" id="guard_name" value="{{ old('guard_name') }}"
-                    class="py-2 px-4 block w-full border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
-                @error('guard_name')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
-            </div>
-
             <!-- Submit Button -->
             <div class="flex justify-end">
                 <a href="{{ route('admin.clubs.index') }}"
