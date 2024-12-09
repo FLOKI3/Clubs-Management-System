@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
 
 class Course extends Model
 {
-    use HasFactory;
+    use HasFactory, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -16,9 +17,8 @@ class Course extends Model
      */
     protected $fillable = [
         'club_id',
-        'guard_name',
-        'lesson_id',
         'coach_id',
+        'lesson_id',
         'room_id',
         'startTime',
         'endTime',

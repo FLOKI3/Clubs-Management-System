@@ -72,20 +72,38 @@
             class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
             placeholder="email@mail.com" value="{{ old('email', $user->email) }}" required>
     </div>
+    @if(Auth::user()->hasRole('manager') && Auth::user()->club)
+    <input type="hidden" name="club_id" value="{{ Auth::user()->club->id }}">
+    @else
     <div class="mb-2 sm:mb-6">
-    <label class="block mb-2 text-sm font-medium text-indigo-900 dark:text-black">Add Roles</label>
-    <select name="roles[]" id="multiselect" multiple>
-        @foreach ($roles as $role)
-            <option value="{{$role->name}}"
-                @if($user->roles->contains($role)) selected @endif>
-                {{$role->name}}</option>
-        @endforeach    
-    </select>
-    @error('roles')
-        <span style="color: red" class="text-sm">
-            {{ $message }}
-        </span>
-    @enderror
+        <label class="block mb-2 text-sm font-medium text-indigo-900 dark:text-black">Club</label>
+        <select name="club_id" id="club_id" class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5" required>
+                @foreach ($clubs as $club)
+                    <option value="{{ $club->id }}" {{ old('club_id') == $club->id ? 'selected' : '' }}>
+                        {{ $club->name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('club_id')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+            @enderror
+        </div>
+    </div>
+    @endif
+    <div class="mb-2 sm:mb-6">
+        <label class="block mb-2 text-sm font-medium text-indigo-900 dark:text-black">Role</label>
+        <select name="role" id="role" class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5" required>
+                    <option value="manager" {{ old('role', $user->roles->contains('name', 'manager') ? 'manager' : '') == 'manager' ? 'selected' : '' }}>
+                        Manager
+                    </option>
+                    <option value="coach" {{ old('role', $user->roles->contains('name', 'coach') ? 'coach' : '') == 'coach' ? 'selected' : '' }}>
+                        Coach
+                    </option>
+            </select>
+            @error('club_id')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+            @enderror
+        </div>
     </div>
     <div class="mt-4 flex justify-end">
         <button type="submit"

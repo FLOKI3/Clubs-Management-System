@@ -27,6 +27,7 @@ class User extends Authenticatable implements HasMedia
         'phone_number',
         'email',
         'password',
+        'club_id',
         
     ];
 
@@ -62,4 +63,12 @@ class User extends Authenticatable implements HasMedia
 {
     return $this->hasMany(Course::class, 'coach_id'); // Ensure 'coach_id' matches your database column
 }
+
+
+public function club()
+{
+    return $this->belongsTo(Club::class, 'club_id');
+}
+
+
 }

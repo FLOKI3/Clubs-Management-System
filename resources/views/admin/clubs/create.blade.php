@@ -16,23 +16,6 @@
                 @enderror
             </div>
 
-            <!-- Add Manager -->
-            <div class="mb-4">
-                <label for="manager_id" class="block text-sm font-medium text-gray-700">Assign Manager</label>
-                <select name="manager_id" id="manager_id"
-                    class="py-2 px-4 block w-full border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
-                    <option value="" disabled selected>Select a Manager</option>
-                    @foreach($users as $user)
-                        <option value="{{ $user->id }}" {{ old('manager_id') == $user->id ? 'selected' : '' }}>
-                            {{ $user->name }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('manager_id')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
-            </div>
-
             <!-- Submit Button -->
             <div class="flex justify-end">
                 <a href="{{ route('admin.clubs.index') }}"

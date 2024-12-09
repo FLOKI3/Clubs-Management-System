@@ -14,7 +14,13 @@ class LessonController extends Controller
     {
         $user = Auth::user();
     
-        $club = Club::where('manager_id', $user->id)->first();
+        // Get the club associated with the logged-in manager
+        $club = Club::whereHas('users', function ($query) use ($user) {
+            $query->where('id', $user->id)
+                ->whereHas('roles', function ($roleQuery) {
+                    $roleQuery->where('name', 'manager');
+                });
+        })->first();
     
         if ($club) {
             $lessons = $club->lessons;
@@ -38,7 +44,13 @@ class LessonController extends Controller
     {
         $user = Auth::user();
         
-        $club = Club::where('manager_id', $user->id)->first();
+        // Get the club associated with the logged-in manager
+        $club = Club::whereHas('users', function ($query) use ($user) {
+            $query->where('id', $user->id)
+                ->whereHas('roles', function ($roleQuery) {
+                    $roleQuery->where('name', 'manager');
+                });
+        })->first();
 
         if ($club) {
             return view('admin.lessons.create', compact('club'));
@@ -50,18 +62,11 @@ class LessonController extends Controller
 
     public function store(Request $request)
     {
-        $user = Auth::user();
         
         $validated = $request->validate([
             'name' => ['required', 'string', 'min:3'],
             'club_id' => ['required', 'exists:clubs,id'],
         ]);
-
-        if ($user->club) {
-            if ($user->club->id !== (int) $validated['club_id']) {
-                return redirect()->back()->with('error', 'You can only create lessons for your assigned club.');
-            }
-        }
 
         Lesson::create($validated);
 
@@ -72,7 +77,13 @@ class LessonController extends Controller
     {
         $user = Auth::user();
 
-        $club = Club::where('manager_id', $user->id)->first();
+        // Get the club associated with the logged-in manager
+        $club = Club::whereHas('users', function ($query) use ($user) {
+            $query->where('id', $user->id)
+                ->whereHas('roles', function ($roleQuery) {
+                    $roleQuery->where('name', 'manager');
+                });
+        })->first();
 
         if ($club) {
             if ($lesson->club_id !== $club->id) {
@@ -96,11 +107,13 @@ class LessonController extends Controller
             'club_id' => ['required', 'exists:clubs,id'],
         ]);
 
-        if ($user->club) {
-            if ($user->club->id !== (int) $validated['club_id']) {
-                return redirect()->back()->with('error', 'You can only create lessons for your assigned club.');
-            }
-        }
+        // Get the club associated with the logged-in manager
+        $club = Club::whereHas('users', function ($query) use ($user) {
+            $query->where('id', $user->id)
+                ->whereHas('roles', function ($roleQuery) {
+                    $roleQuery->where('name', 'manager');
+                });
+        })->first();
 
         $lesson->update($validated);
 

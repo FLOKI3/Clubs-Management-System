@@ -47,20 +47,6 @@
                         </span>
                     @enderror
                     
-                    <p class="mt-4">Edit Manager</p>
-                    <select name="manager_id" id="manager_id" class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none" required>
-                        @foreach($managers as $manager)
-                            <option value="{{ $manager->id }}" {{ $club->manager_id == $manager->id ? 'selected' : '' }}>
-                                {{ $manager->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('manager_id')
-                        <span style="color: red" class="text-sm">
-                            {{ $message }}
-                        </span>
-                    @enderror
-                    
                     <div class="mt-4 flex justify-end">
                         <button type="submit"
                                 class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">Save

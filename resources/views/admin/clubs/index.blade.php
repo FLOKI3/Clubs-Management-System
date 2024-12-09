@@ -15,7 +15,7 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Club name</th>
-                                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase" >Manager</th>
+                                <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase" >Managers</th>
                                 <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Action</th>
                             </tr>
                         </thead>
@@ -37,7 +37,18 @@
                                             <div class="text-base font-semibold">{{$club->name}}</div>
                                         </div>  
                                     </th>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{$club->manager->name}}</td>
+                                    
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                                    @if ($managers[$club->id]->isNotEmpty())
+                                        <ul>
+                                            @foreach ($managers[$club->id] as $manager)
+                                                <li>{{ $manager->name }} ({{ $manager->email }})</li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <em>No managers assigned</em>
+                                    @endif
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                     <div class="flex justify-center items-center">
                                     @can('Edit clubs')

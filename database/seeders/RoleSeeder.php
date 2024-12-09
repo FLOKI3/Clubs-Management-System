@@ -95,6 +95,10 @@ class RoleSeeder extends Seeder
             ->givePermissionTo([
                 'Dashboard access',
 
+                'Manage users',
+                'Edit users',
+                'Delete users',
+
                 'Manage rooms',
                 'Create rooms',
                 'Edit rooms',

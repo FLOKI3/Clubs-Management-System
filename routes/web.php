@@ -90,6 +90,12 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
         ->name('users.update')
         ->middleware('permission:Edit users');
 
+    Route::get('/user/create', [UserController::class, 'create'])
+        ->name('users.create');
+
+    Route::post('/users', [UserController::class, 'store'])
+        ->name('users.store');
+
     // Clubs
     Route::get('/clubs', [ClubController::class, 'index'])
         ->name('clubs.index')

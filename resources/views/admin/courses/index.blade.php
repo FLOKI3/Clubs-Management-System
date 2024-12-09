@@ -29,7 +29,7 @@
                   @foreach ($courses as $course)
                       {
                           id: '{{ $course->id }}',
-                          title: '{{ $course->club->name }} ({{ $course->coach->name }})',
+                          title: '{{ optional($course->club)->name ?? "Unknown Club" }} ({{ optional($course->coach)->name ?? "Unknown Coach" }})',
                           start: '{{ $course->startTime }}',
                           end: '{{ $course->endTime }}',
                           color: '{{ '#' . substr(md5($course->club->id), 0, 6) }}',

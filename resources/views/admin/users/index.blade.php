@@ -2,7 +2,7 @@
     @section('title', 'USERS')
   <div class="flex flex-col">
     <div class="flex justify-end">
-        <a href="" type="button"
+        <a href="{{ route('admin.users.create') }}" type="button"
             class="ml-2 text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-green-600 hover:bg-green-700 focus:ring-green-800">Create User
         </a>
     </div>
@@ -15,6 +15,7 @@
                               <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Username</th>
                               <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Full name</th>
                               <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Phone N°</th>
+                              <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Club</th>
                               <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Roles</th>
                               <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Action</th>
                           </tr>
@@ -40,6 +41,7 @@
                                 </th>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{$user->first_name}} {{$user->last_name}}</td>
                                 <td class="px-6 py-4 text-start whitespace-nowrap text-sm font-medium text-gray-800">{{$user->phone_number}}</td>
+                                <td class="px-6 py-4 text-start whitespace-nowrap text-sm font-medium text-gray-800">{{ $user->club ? $user->club->name : 'Not Assigned' }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                                     @foreach ($user->roles as $role)
                                     <span class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded">{{ $role->name }}</span>

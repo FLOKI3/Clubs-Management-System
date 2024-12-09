@@ -18,13 +18,22 @@ class CourseController extends Controller
     {
         $user = Auth::user(); 
 
-        $club = Club::where('manager_id', $user->id)->first();
+        // Check if the user is a manager assigned to a club
+        $club = Club::whereHas('users', function ($query) use ($user) {
+            $query->where('id', $user->id)
+                ->whereHas('roles', function ($roleQuery) {
+                    $roleQuery->where('name', 'manager');
+                });
+        })->first();
 
         if ($club) {
+            // If the user is a manager, show courses for their club
             $courses = Course::where('club_id', $club->id)->get();
-        } elseif (Course::where('coach_id', $user->id)->exists()) {
+        } elseif ($user->hasRole('coach')) {
+            // If the user is a coach, show courses they are assigned to
             $courses = Course::where('coach_id', $user->id)->get();
         } else {
+            // For admins or other roles, show all courses
             $courses = Course::all();
         }
 
@@ -34,7 +43,13 @@ class CourseController extends Controller
     public function create()
     {
         $user = Auth::user(); 
-        $club = Club::where('manager_id', $user->id)->first(); 
+        // Check if the logged-in user is a manager of a club
+        $club = Club::whereHas('users', function ($query) use ($user) {
+            $query->where('id', $user->id)
+                ->whereHas('roles', function ($roleQuery) {
+                    $roleQuery->where('name', 'manager');
+                });
+        })->first();
 
         if (!$club) {
             return redirect()->route('admin.courses.index')->with('message', 'Only manager can create courses.');
@@ -42,7 +57,11 @@ class CourseController extends Controller
 
         $lessons = Lesson::where('club_id', $club->id)->get();
         $rooms = Room::where('club_id', $club->id)->get();
-        $users = User::all(); 
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('name', 'coach');
+        })->whereHas('club', function ($query) use ($club) {
+            $query->where('id', $club->id);
+        })->get(); 
 
         return view('admin.courses.create', compact('club', 'users', 'lessons', 'rooms'));
     }
@@ -50,37 +69,55 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'club_id' => 'required|exists:clubs,id', 
+            'club_id' => 'required|exists:clubs,id',
+            'coach_id' => 'required|exists:users,id',
             'lesson_id' => 'required|exists:lessons,id',
             'room_id' => 'required|exists:rooms,id',
-            'coach_id' => 'required|exists:users,id',
             'startTime' => 'required|date',
             'endTime' => 'required|date|after:startTime',
         ]);
 
-        $coach = User::find($request->coach_id);
+        $user = Auth::user();
 
-        $club = Club::find($request->club_id);
+        // Ensure the user is a manager of the club
+        $club = Club::whereHas('users', function ($query) use ($user) {
+            $query->where('id', $user->id)
+                ->whereHas('roles', function ($roleQuery) {
+                    $roleQuery->where('name', 'manager');
+                });
+        })->where('id', $request->club_id)->first();
 
         if (!$club) {
-            return redirect()->back()->with('error', 'Selected club is invalid.');
+            return redirect()->back()->with('error', 'You can only create courses for your assigned club.');
         }
 
-        $roleName = 'coach_of_' . strtolower(str_replace(' ', '_', $club->name));
+        // Ensure selected lesson and room belong to the club
+        $lesson = Lesson::where('id', $request->lesson_id)->where('club_id', $club->id)->first();
+        $room = Room::where('id', $request->room_id)->where('club_id', $club->id)->first();
 
-        if (!$coach->hasRole($roleName)) {
-            $role = Role::findOrCreate($roleName);
-            $coach->assignRole($role, 'coach');
+        if (!$lesson || !$room) {
+            return redirect()->back()->with('error', 'Lesson or room is not valid for the selected club.');
         }
 
+        // Ensure selected coach has a coach role in the club
+        $coach = User::whereHas('roles', function ($query) {
+            $query->where('name', 'coach');
+        })->whereHas('club', function ($query) use ($club) {
+            $query->where('id', $club->id);
+        })->find($request->coach_id);
+
+        if (!$coach) {
+            return redirect()->back()->with('error', 'Selected coach is not valid for the selected club.');
+        }
+
+        // Create the course
         Course::create([
             'club_id' => $club->id,
-            'lesson_id' => $request->lesson_id,
-            'room_id' => $request->room_id,
-            'coach_id' => $request->coach_id,
+            'lesson_id' => $lesson->id,
+            'room_id' => $room->id,
+            'coach_id' => $coach->id,
             'startTime' => $request->startTime,
             'endTime' => $request->endTime,
-            'guard_name' => 'web', 
         ]);
 
         return redirect()->route('admin.courses.index')->with('message', 'Course created successfully.');
@@ -89,43 +126,6 @@ class CourseController extends Controller
     public function destroy($id)
     {
         $course = Course::find($id);
-
-        if (!$course) {
-            return redirect()->route('admin.courses.index')->with('error', 'Course not found.');
-        }
-
-        $club = $course->club;
-
-        if ($club) {
-            $roleName = 'coach_of_' . strtolower(str_replace(' ', '_', $club->name));
-
-            $coach = $course->coach;
-
-            if ($coach) {
-                $remainingClubCourses = $coach
-                    ->courses()
-                    ->where('club_id', $club->id)
-                    ->count();
-
-                if ($remainingClubCourses === 1 && $coach->hasRole($roleName)) {
-                    $coach->removeRole($roleName);
-                }
-
-                $remainingCourses = $coach->courses()->count();
-
-                if ($remainingCourses === 1 && $coach->hasRole('coach')) {
-                    $coach->removeRole('coach');
-                }
-            }
-
-            $usersWithRole = User::role($roleName)->count(); 
-            if ($usersWithRole === 0) {
-                $role = Role::where('name', $roleName)->first();
-                if ($role) {
-                    $role->delete();
-                }
-            }
-        }
 
         // Delete the course
         $course->delete();
@@ -141,8 +141,13 @@ class CourseController extends Controller
         // Fetch the currently authenticated user
         $user = Auth::user();
 
-        // Check if the user is assigned to a club
-        $club = Club::where('manager_id', $user->id)->first();
+        // Check if the logged-in user is a manager of a club
+        $club = Club::whereHas('users', function ($query) use ($user) {
+            $query->where('id', $user->id)
+                ->whereHas('roles', function ($roleQuery) {
+                    $roleQuery->where('name', 'manager');
+                });
+        })->first();
 
         // If the user does not belong to any club, show a message
         if (!$club) {
@@ -153,8 +158,11 @@ class CourseController extends Controller
         $lessons = Lesson::where('club_id', $club->id)->get();
         $rooms = Room::where('club_id', $club->id)->get();
 
-        // Fetch all users (or filter as needed)
-        $users = User::all();
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('name', 'coach');
+        })->whereHas('club', function ($query) use ($club) {
+            $query->where('id', $club->id);
+        })->get(); 
 
         return view('admin.courses.edit', compact('course', 'lessons', 'rooms', 'users', 'club'));
     }
@@ -173,47 +181,11 @@ class CourseController extends Controller
         // Find the course by ID
         $course = Course::findOrFail($id);
 
-        // Get the old coach
-        $oldCoach = User::find($course->coach_id);
-
-        // Get the new coach
-        $newCoach = User::findOrFail($request->coach_id);
-
         // Get the associated club for the course
         $club = $course->club;
 
         if (!$club) {
             return redirect()->back()->with('error', 'Associated club is invalid.');
-        }
-
-        // Generate role name based on the club's name
-        $roleName = 'coach_of_' . strtolower(str_replace(' ', '_', $club->name));
-
-        // Remove roles from the old coach only if they no longer have any other courses
-        if ($oldCoach && $oldCoach->id !== $newCoach->id) {
-            // Check if the old coach has other courses
-            $oldCoachHasOtherCourses = Course::where('coach_id', $oldCoach->id)
-                ->where('id', '!=', $course->id)
-                ->exists();
-
-            if (!$oldCoachHasOtherCourses) {
-                // If no other courses exist for the old coach, remove the role
-                if ($oldCoach->hasRole($roleName)) {
-                    $oldCoach->removeRole($roleName); // Remove the dynamic role
-                }
-                if ($oldCoach->hasRole('coach')) {
-                    $oldCoach->removeRole('coach'); // Remove the 'coach' role
-                }
-            }
-        }
-
-        // Assign roles to the new coach if they do not already have them
-        if (!$newCoach->hasRole($roleName)) {
-            $role = Role::firstOrCreate(['name' => $roleName, 'guard_name' => 'web']);
-            $newCoach->assignRole($role);
-        }
-        if (!$newCoach->hasRole('coach')) {
-            $newCoach->assignRole('coach');
         }
 
         // Update the course details
