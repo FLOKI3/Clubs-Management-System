@@ -8,10 +8,10 @@
 
             <!-- Club Name -->
             <div class="mb-4">
-                <label for="club_name" class="block text-sm font-medium text-gray-700">Club Name</label>
-                <input type="text" name="club_name" id="club_name" value="{{ old('club_name') }}"
+                <label for="name" class="block text-sm font-medium text-gray-700">Club Name</label>
+                <input type="text" name="name" id="name" value="{{ old('name') }}"
                     class="py-2 px-4 block w-full border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500">
-                @error('club_name')
+                @error('name')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>

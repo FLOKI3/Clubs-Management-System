@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ClubRequest;
 use App\Models\Club;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -16,15 +17,11 @@ class ClubController extends Controller
         return view('admin.clubs.create');
     }
 
-    public function store(Request $request)
+    public function store(ClubRequest $request)
     {
-        $validated = $request->validate([
-            'club_name' => ['required', 'string', 'min:3'],
-        ]);
+        $validated = $request->validated();
 
-        $club = Club::create([
-            'name' => $validated['club_name'],
-        ]);
+        $club = Club::create($validated);
 
 
         return redirect()->route('admin.clubs.index')->with('message', 'Club created successfully!');
@@ -71,11 +68,9 @@ class ClubController extends Controller
         return view('admin.clubs.edit', compact('club'));
     }
 
-    public function update(Request $request, Club $club)
+    public function update(ClubRequest $request, Club $club)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'min:3'],
-        ]);
+        $validated = $request->validated();
 
         $club->update([
             'name' => $validated['name'],

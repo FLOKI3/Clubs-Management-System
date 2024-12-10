@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseRequest;
 use App\Models\Club;
 use App\Models\Course;
 use App\Models\Lesson;
@@ -66,16 +67,9 @@ class CourseController extends Controller
         return view('admin.courses.create', compact('club', 'users', 'lessons', 'rooms'));
     }
 
-    public function store(Request $request)
+    public function store(CourseRequest $request)
     {
-        $request->validate([
-            'club_id' => 'required|exists:clubs,id',
-            'coach_id' => 'required|exists:users,id',
-            'lesson_id' => 'required|exists:lessons,id',
-            'room_id' => 'required|exists:rooms,id',
-            'startTime' => 'required|date',
-            'endTime' => 'required|date|after:startTime',
-        ]);
+        $request->validated();
 
         $user = Auth::user();
 
@@ -167,16 +161,10 @@ class CourseController extends Controller
         return view('admin.courses.edit', compact('course', 'lessons', 'rooms', 'users', 'club'));
     }
 
-    public function update(Request $request, $id)
+    public function update(CourseRequest $request, $id)
     {
         // Validate the request
-        $request->validate([
-            'lesson_id' => 'required|exists:lessons,id',
-            'room_id' => 'required|exists:rooms,id',
-            'coach_id' => 'required|exists:users,id',
-            'startTime' => 'required|date',
-            'endTime' => 'required|date|after:startTime',
-        ]);
+        $request->validated();
 
         // Find the course by ID
         $course = Course::findOrFail($id);

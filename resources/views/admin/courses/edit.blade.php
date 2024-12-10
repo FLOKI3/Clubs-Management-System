@@ -22,7 +22,10 @@
             <form method="POST" action="{{ route('admin.courses.update', $course->id) }}">
                 @csrf
                 @method('PUT')
-
+                <!-- Club Selection -->
+                    @if(isset($club))
+                    <input type="hidden" name="club_id" value="{{ $club->id }}">
+                @endif
                 <!-- Display Selected Lesson Logo -->
                 @php
                     $selectedLessonLogo = $course->lesson->getFirstMedia('lessons_logo');

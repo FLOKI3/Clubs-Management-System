@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RoomRequest;
 use App\Models\Club;
 use App\Models\Room;
 use Illuminate\Http\Request;
@@ -64,12 +65,9 @@ class RoomController extends Controller
         return view('admin.rooms.create', compact('clubs'));
     }
 
-    public function store(Request $request)
+    public function store(RoomRequest $request)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'min:3'],
-            'club_id' => ['required', 'exists:clubs,id'],
-        ]);
+        $validated = $request->validated();
 
         Room::create($validated);
 
@@ -103,14 +101,11 @@ class RoomController extends Controller
     }
 
 
-    public function update(Request $request, Room $room)
+    public function update(RoomRequest $request, Room $room)
     {
         $user = Auth::user();
 
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'min:3'],
-            'club_id' => ['required', 'exists:clubs,id'],
-        ]);
+        $validated = $request->validated();
 
         // Check if the user is a manager and validate the club assignment
         $club = Club::whereHas('users', function ($query) use ($user) {

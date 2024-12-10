@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LessonRequest;
 use App\Models\Club;
 use App\Models\Lesson;
 use Illuminate\Http\Request;
@@ -60,13 +61,10 @@ class LessonController extends Controller
         return view('admin.lessons.create', compact('clubs'));
     }
 
-    public function store(Request $request)
+    public function store(LessonRequest $request)
     {
         
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'min:3'],
-            'club_id' => ['required', 'exists:clubs,id'],
-        ]);
+        $validated = $request->validated();
 
         Lesson::create($validated);
 
@@ -98,14 +96,11 @@ class LessonController extends Controller
     }
 
 
-    public function update(Request $request, Lesson $lesson)
+    public function update(LessonRequest $request, Lesson $lesson)
     {
         $user = Auth::user();
         
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'min:3'],
-            'club_id' => ['required', 'exists:clubs,id'],
-        ]);
+        $validated = $request->validated();
 
         // Get the club associated with the logged-in manager
         $club = Club::whereHas('users', function ($query) use ($user) {
