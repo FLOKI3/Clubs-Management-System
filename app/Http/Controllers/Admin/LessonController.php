@@ -117,6 +117,11 @@ class LessonController extends Controller
 
         $lesson->update($validated);
 
+        if ($request->hasFile('lessons_logo')) {
+            $lesson->clearMediaCollection('lessons_logo');
+            $lesson->addMediaFromRequest('lessons_logo')->toMediaCollection('lessons_logo');
+        }
+
         return redirect()->route('admin.lessons.index')->with('message', 'Lesson created successfully!');
     }
 

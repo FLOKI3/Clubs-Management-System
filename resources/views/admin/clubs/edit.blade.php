@@ -14,11 +14,11 @@
                             $imageUrl = $media ? asset('storage/' . $media->id . '/' . $media->file_name) : null;
                         @endphp
                         @if($imageUrl)
-                            <img class="w-24 h-24 mb-3 rounded-full shadow-lg"
+                            <img class="w-24 h-24 mb-3 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
                                 src="{{ $imageUrl }}"
                                 alt="avatar">
                             @else
-                                <img class="w-24 h-24 mb-3 rounded-full shadow-lg"
+                                <img class="w-24 h-24 mb-3  p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
                                     src="{{ asset('assets/images/no-image.png') }}"
                                     alt="Bordered avatar">
                         @endif
