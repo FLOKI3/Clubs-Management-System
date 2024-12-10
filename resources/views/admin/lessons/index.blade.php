@@ -23,7 +23,21 @@
                         <tbody class="divide-y divide-gray-200">
                         @foreach ($lessons as $lesson)
                                 <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{ $lesson->name }}</td>
+                                    <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                        @php
+                                            $media = $lesson->getFirstMedia('lessons_logo');
+                                            $imageUrl = $media ? asset('storage/' . $media->id . '/' . $media->file_name) : null;
+                                        @endphp
+                                        
+                                        @if($imageUrl)
+                                            <img src="{{ $imageUrl }}" alt="Lesson Logo" class="w-8 h-8 rounded-full object-cover">
+                                        @else
+                                            <img src="{{ asset('assets/images/no-image.png') }}" alt="Lesson Picture" class="w-8 h-8 rounded-full">
+                                        @endif
+                                        <div class="ps-3">
+                                            <div class="text-base font-semibold">{{$lesson->name}}</div>
+                                        </div>  
+                                    </th>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{ $lesson->club->name }}</td>
                                 <td class="px-6 py-4 text-sm font-medium text-gray-800">
                                     <div class="flex items-center">

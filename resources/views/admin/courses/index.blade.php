@@ -26,31 +26,52 @@
                   list: 'List'
               },
               events: [
-                  @foreach ($courses as $course)
-                      {
-                          id: '{{ $course->id }}',
-                          title: '{{ optional($course->club)->name ?? "Unknown Club" }} ({{ optional($course->coach)->name ?? "Unknown Coach" }})',
-                          start: '{{ $course->startTime }}',
-                          end: '{{ $course->endTime }}',
-                          color: '{{ '#' . substr(md5($course->club->id), 0, 6) }}',
-                          description: 'Club: {{ $course->club->name }} | Room: {{ $course->room->name }} | Lesson: {{ $course->lesson->name }}',
-                      },
-                  @endforeach
+                @foreach ($courses as $course)
+                        @php
+                            $lessonMedia = $course->lesson?->getFirstMedia('lessons_logo');
+                            $lessonLogoUrl = $lessonMedia 
+                                ? asset('storage/' . $lessonMedia->id . '/' . $lessonMedia->file_name) 
+                                : asset('assets/images/no-image.png');
+                        @endphp
+                        {
+                            id: '{{ $course->id }}',
+                            title: '{{ optional($course->coach)->name ?? "Unknown Coach" }} ({{ optional($course->lesson)->name ?? "Unknown Lesson" }})',
+                            start: '{{ $course->startTime }}',
+                            end: '{{ $course->endTime }}',
+                            color: '{{ '#' . substr(md5($course->club->id), 0, 6) }}',
+                            description: 'Club: {{ $course->club->name }} | Room: {{ $course->room->name }} | Lesson: {{ $course->lesson->name }}',
+                            logo: '{{ $lessonLogoUrl }}',
+                        },
+                    @endforeach
               ],
               eventClick: function (info) {
                   @can('Edit sessions')
-                      // Redirect to the edit page for the selected course
                       window.location.href = "{{ url('dashboard/courses') }}/" + info.event.id + "/edit";
                   @else
-                      // Show event information in an alert
                       alert(
                           'Event: ' + info.event.title + '\n' +
                           'Description: ' + info.event.extendedProps.description + '\n' +
                           'Start: ' + info.event.start.toLocaleString() + '\n' +
                           'End: ' + (info.event.end ? info.event.end.toLocaleString() : 'N/A')
-                      );
+                      );             
                   @endcan
-              }
+              },
+              eventContent: function(arg) {
+                let logo = arg.event.extendedProps.logo
+                    ? `<img src="${arg.event.extendedProps.logo}" style="width:20px; height:20px; margin-right:5px; border-radius:50%;" />`
+                    : '';
+                
+                // Adjust title based on screen size
+                let title = window.innerWidth <= 768 
+                    ? arg.event.title.slice(0, 15) + '...' 
+                    : arg.event.title; 
+
+                return { html: logo + `<span class="fc-event-title">${title}</span>` };
+            },
+            windowResize: function(view) {
+                calendar.refetchEvents(); 
+            }
+
           });
 
           calendar.render();

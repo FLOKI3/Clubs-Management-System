@@ -23,6 +23,14 @@
                 @csrf
                 @method('PUT')
 
+                <!-- Display Selected Lesson Logo -->
+                @php
+                    $selectedLessonLogo = $course->lesson->getFirstMedia('lessons_logo');
+                    $selectedLogoUrl = $selectedLessonLogo ? asset('storage/' . $selectedLessonLogo->id . '/' . $selectedLessonLogo->file_name) : asset('assets/images/no-image.png');
+                @endphp
+                <div class="flex justify-center">
+                    <img src="{{ $selectedLogoUrl }}" alt="Lesson Logo" class="w-24 h-24 mb-3 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500">
+                </div>
                 <!-- Lesson Dropdown -->
                 <div>
                     <label for="lesson_id">Lesson:</label>
