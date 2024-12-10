@@ -15,19 +15,24 @@ class ClubsSeeder extends Seeder
      */
     public function run()
     {
-        // Get 10 random users to act as managers 2 3 4
-        $managers = User::whereIn('id', [2, 3, 4])->inRandomOrder()->take(3)->get();
+        Club::create([
+            'name' => 'Fitness Club',
+        ]);
 
-        foreach ($managers as $index => $manager) {
+        Club::create([
+            'name' => 'Sports Club',
+        ]);
 
-            // Create the club
-            $club = Club::create([
-                'name' => "Club " . ($index + 1),
-                'manager_id' => $manager->id,
-            ]);
+        Club::create([
+            'name' => 'Yoga Club',
+        ]);
 
-            // Assign the role to the manager
-            $manager->assignRole('manager');
-        }
+        Club::create([
+            'name' => 'Martial Arts Club',
+        ]);
+
+        Club::create([
+            'name' => 'Music Club',
+        ]);
     }
 }

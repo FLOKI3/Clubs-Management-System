@@ -14,15 +14,105 @@ class LessonsSeeder extends Seeder
      */
     public function run()
     {
-        $clubs = Club::all();
-
-        foreach ($clubs as $club) {
-            for ($i = 1; $i <= 5; $i++) {
-                Lesson::create([
-                    'name' => "Lesson {$i} for {$club->name}",
-                    'club_id' => $club->id,
-                ]);
-            }
-        }
+        Lesson::create([
+            'name' => 'Strength Training',
+            'club_id' => 1,
+        ]);
+        Lesson::create([
+            'name' => 'Cardio',
+            'club_id' => 1,
+        ]);
+        Lesson::create([
+            'name' => 'Yoga for Fitness',
+            'club_id' => 1,
+        ]);
+        Lesson::create([
+            'name' => 'HIIT',
+            'club_id' => 1,
+        ]);
+        Lesson::create([
+            'name' => 'CrossFit',
+            'club_id' => 1,
+        ]);
+        Lesson::create([
+            'name' => 'Basketball Training',
+            'club_id' => 2,
+        ]);
+        Lesson::create([
+            'name' => 'Football Practice',
+            'club_id' => 2,
+        ]);
+        Lesson::create([
+            'name' => 'Tennis Training',
+            'club_id' => 2,
+        ]);
+        Lesson::create([
+            'name' => 'Swimming Practice',
+            'club_id' => 2,
+        ]);
+        Lesson::create([
+            'name' => 'Track & Field',
+            'club_id' => 2,
+        ]);
+        Lesson::create([
+            'name' => 'Hatha Yoga',
+            'club_id' => 3,
+        ]);
+        Lesson::create([
+            'name' => 'Vinyasa Yoga',
+            'club_id' => 3,
+        ]);
+        Lesson::create([
+            'name' => 'Power Yoga',
+            'club_id' => 3,
+        ]);
+        Lesson::create([
+            'name' => 'Restorative Yoga',
+            'club_id' => 3,
+        ]);
+        Lesson::create([
+            'name' => 'Ashtanga Yoga',
+            'club_id' => 3,
+        ]);
+        Lesson::create([
+            'name' => 'Karate',
+            'club_id' => 4,
+        ]);
+        Lesson::create([
+            'name' => 'Judo',
+            'club_id' => 4,
+        ]);
+        Lesson::create([
+            'name' => 'Taekwondo',
+            'club_id' => 4,
+        ]);
+        Lesson::create([
+            'name' => 'Boxing',
+            'club_id' => 4,
+        ]);
+        Lesson::create([
+            'name' => 'Brazilian Jiu-Jitsu',
+            'club_id' => 4,
+        ]);
+        Lesson::create([
+            'name' => 'Guitar Lessons',
+            'club_id' => 5,
+        ]);
+        Lesson::create([
+            'name' => 'Piano Lessons',
+            'club_id' => 5,
+        ]);
+        Lesson::create([
+            'name' => 'Drum Lessons',
+            'club_id' => 5,
+        ]);
+        Lesson::create([
+            'name' => 'Vocal Lessons',
+            'club_id' => 5,
+        ]);
+        Lesson::create([
+            'name' => 'Music Theory',
+            'club_id' => 5,
+        ]);
     }
 }

@@ -14,15 +14,105 @@ class RoomsSeeder extends Seeder
      */
     public function run()
     {
-        $clubs = Club::all();
-
-        foreach ($clubs as $club) {
-            for ($i = 1; $i <= 5; $i++) {
-                Room::create([
-                    'name' => "Room {$i} for {$club->name}",
-                    'club_id' => $club->id,
-                ]);
-            }
-        }
+        Room::create([
+            'name' => 'Room 1',
+            'club_id' => 1,
+        ]);
+        Room::create([
+            'name' => 'Room 2',
+            'club_id' => 1,
+        ]);
+        Room::create([
+            'name' => 'Room 3',
+            'club_id' => 1,
+        ]);
+        Room::create([
+            'name' => 'Room 4',
+            'club_id' => 1,
+        ]);
+        Room::create([
+            'name' => 'Room 5',
+            'club_id' => 1,
+        ]);
+        Room::create([
+            'name' => 'Room 1',
+            'club_id' => 2,
+        ]);
+        Room::create([
+            'name' => 'Room 2',
+            'club_id' => 2,
+        ]);
+        Room::create([
+            'name' => 'Room 3',
+            'club_id' => 2,
+        ]);
+        Room::create([
+            'name' => 'Room 4',
+            'club_id' => 2,
+        ]);
+        Room::create([
+            'name' => 'Room 5',
+            'club_id' => 2,
+        ]);
+        Room::create([
+            'name' => 'Room 1',
+            'club_id' => 3,
+        ]);
+        Room::create([
+            'name' => 'Room 2',
+            'club_id' => 3,
+        ]);
+        Room::create([
+            'name' => 'Room 3',
+            'club_id' => 3,
+        ]);
+        Room::create([
+            'name' => 'Room 4',
+            'club_id' => 3,
+        ]);
+        Room::create([
+            'name' => 'Room 5',
+            'club_id' => 3,
+        ]);
+        Room::create([
+            'name' => 'Room 1',
+            'club_id' => 4,
+        ]);
+        Room::create([
+            'name' => 'Room 2',
+            'club_id' => 4,
+        ]);
+        Room::create([
+            'name' => 'Room 3',
+            'club_id' => 4,
+        ]);
+        Room::create([
+            'name' => 'Room 4',
+            'club_id' => 4,
+        ]);
+        Room::create([
+            'name' => 'Room 5',
+            'club_id' => 4,
+        ]);
+        Room::create([
+            'name' => 'Room 1',
+            'club_id' => 5,
+        ]);
+        Room::create([
+            'name' => 'Room 2',
+            'club_id' => 5,
+        ]);
+        Room::create([
+            'name' => 'Room 3',
+            'club_id' => 5,
+        ]);
+        Room::create([
+            'name' => 'Room 4',
+            'club_id' => 5,
+        ]);
+        Room::create([
+            'name' => 'Room 5',
+            'club_id' => 5,
+        ]);
     }
 }
