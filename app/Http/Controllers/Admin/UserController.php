@@ -29,13 +29,13 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    public function show(User $user)
+    public function edit(User $user)
     {
         $roles= Role::all();
         $permissions= Permission::all();
         $clubs = Club::all();
 
-        return view('admin.users.role', compact('user', 'roles', 'permissions', 'clubs'));
+        return view('admin.users.edit', compact('user', 'roles', 'permissions', 'clubs'));
     }
 
     

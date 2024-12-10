@@ -78,8 +78,8 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
         ->name('users.index')
         ->middleware('permission:Manage users');
 
-    Route::get('/users/{user}', [UserController::class, 'show'])
-        ->name('users.show')
+    Route::get('/users/{user}', [UserController::class, 'edit'])
+        ->name('users.edit')
         ->middleware('permission:Edit users');
 
     Route::delete('/users/{user}', [UserController::class, 'destroy'])
