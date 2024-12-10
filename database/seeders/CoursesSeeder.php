@@ -2,13 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Club;
 use App\Models\Course;
-use App\Models\Lesson;
-use App\Models\Room;
-use App\Models\User;
 use Carbon\Carbon;
-use Spatie\Permission\Models\Role;
 use Illuminate\Database\Seeder;
 
 class CoursesSeeder extends Seeder
@@ -18,36 +13,88 @@ class CoursesSeeder extends Seeder
      */
     public function run(): void
     {
-        // Get all clubs
-        $clubs = Club::all();
+        $courses = [
+            // Club 1 - Fitness Club
+            [
+                'club_id' => 1,
+                'coach_id' => 2, // Bob Smith
+                'lesson_id' => 1,
+                'room_id' => 1,
+                'startTime' => Carbon::now()->addDays(1)->setTime(9, 0),
+                'endTime' => Carbon::now()->addDays(1)->setTime(10, 30),
+            ],
+            [
+                'club_id' => 1,
+                'coach_id' => 3, // Carol Lee
+                'lesson_id' => 2,
+                'room_id' => 2,
+                'startTime' => Carbon::now()->addDays(2)->setTime(11, 0),
+                'endTime' => Carbon::now()->addDays(2)->setTime(12, 30),
+            ],
+            // Club 2 - Sports Club
+            [
+                'club_id' => 2,
+                'coach_id' => 5, // Evelyn Davis
+                'lesson_id' => 3,
+                'room_id' => 3,
+                'startTime' => Carbon::now()->addDays(3)->setTime(14, 0),
+                'endTime' => Carbon::now()->addDays(3)->setTime(15, 30),
+            ],
+            [
+                'club_id' => 2,
+                'coach_id' => 6, // Franklin Wilson
+                'lesson_id' => 4,
+                'room_id' => 4,
+                'startTime' => Carbon::now()->addDays(4)->setTime(16, 0),
+                'endTime' => Carbon::now()->addDays(4)->setTime(17, 30),
+            ],
+            // Club 3 - Yoga Club
+            [
+                'club_id' => 3,
+                'coach_id' => 8, // Henry Martin
+                'lesson_id' => 5,
+                'room_id' => 5,
+                'startTime' => Carbon::now()->addDays(5)->setTime(10, 0),
+                'endTime' => Carbon::now()->addDays(5)->setTime(11, 30),
+            ],
+            // Club 4 - Martial Arts Club
+            [
+                'club_id' => 4,
+                'coach_id' => 10, // James Davis
+                'lesson_id' => 6,
+                'room_id' => 6,
+                'startTime' => Carbon::now()->addDays(6)->setTime(9, 0),
+                'endTime' => Carbon::now()->addDays(6)->setTime(10, 30),
+            ],
+            [
+                'club_id' => 4,
+                'coach_id' => 11, // Karen Wright
+                'lesson_id' => 7,
+                'room_id' => 7,
+                'startTime' => Carbon::now()->addDays(7)->setTime(12, 0),
+                'endTime' => Carbon::now()->addDays(7)->setTime(13, 30),
+            ],
+            // Club 5 - Music Club
+            [
+                'club_id' => 5,
+                'coach_id' => 13, // Mark Lee
+                'lesson_id' => 8,
+                'room_id' => 8,
+                'startTime' => Carbon::now()->addDays(8)->setTime(15, 0),
+                'endTime' => Carbon::now()->addDays(8)->setTime(16, 30),
+            ],
+            [
+                'club_id' => 5,
+                'coach_id' => 14, // Nancy King
+                'lesson_id' => 9,
+                'room_id' => 9,
+                'startTime' => Carbon::now()->addDays(9)->setTime(17, 0),
+                'endTime' => Carbon::now()->addDays(9)->setTime(18, 30),
+            ],
+        ];
 
-        foreach ($clubs as $club) {
-            // Get related lessons, rooms, and coaches for the club
-            $lessons = Lesson::where('club_id', $club->id)->get();
-            $rooms = Room::where('club_id', $club->id)->get();
-            $coaches = User::role('coach')->get();
-
-            // Create 5 random courses for each club
-            for ($i = 0; $i < 5; $i++) {
-                $lesson = $lessons->random();
-                $room = $rooms->random();
-                $coach = $coaches->random();
-
-                // Generate random start time and end time
-                $startTime = Carbon::now()->addDays(rand(1, 30))->setTime(rand(8, 18), 0, 0);
-                $endTime = $startTime->copy()->addHours(rand(1, 3));
-
-                // Create course
-                Course::create([
-                    'club_id' => $club->id,
-                    'coach_id' => $coach->id,
-                    'lesson_id' => $lesson->id,
-                    'room_id' => $room->id,
-                    'startTime' => $startTime,
-                    'endTime' => $endTime,
-                ]);
-            }
+        foreach ($courses as $course) {
+            Course::create($course);
         }
     }
-    
 }
