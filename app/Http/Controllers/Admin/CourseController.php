@@ -19,7 +19,6 @@ class CourseController extends Controller
     {
         $user = Auth::user(); 
 
-        // Check if the user is a manager assigned to a club
         $club = Club::whereHas('users', function ($query) use ($user) {
             $query->where('id', $user->id)
                 ->whereHas('roles', function ($roleQuery) {
@@ -28,13 +27,10 @@ class CourseController extends Controller
         })->first();
 
         if ($club) {
-            // If the user is a manager, show courses for their club
             $courses = Course::where('club_id', $club->id)->get();
         } elseif ($user->hasRole('coach')) {
-            // If the user is a coach, show courses they are assigned to
             $courses = Course::where('coach_id', $user->id)->get();
         } else {
-            // For admins or other roles, show all courses
             $courses = Course::all();
         }
 
@@ -44,7 +40,6 @@ class CourseController extends Controller
     public function create()
     {
         $user = Auth::user(); 
-        // Check if the logged-in user is a manager of a club
         $club = Club::whereHas('users', function ($query) use ($user) {
             $query->where('id', $user->id)
                 ->whereHas('roles', function ($roleQuery) {
@@ -73,7 +68,6 @@ class CourseController extends Controller
 
         $user = Auth::user();
 
-        // Ensure the user is a manager of the club
         $club = Club::whereHas('users', function ($query) use ($user) {
             $query->where('id', $user->id)
                 ->whereHas('roles', function ($roleQuery) {
@@ -85,7 +79,6 @@ class CourseController extends Controller
             return redirect()->back()->with('error', 'You can only create courses for your assigned club.');
         }
 
-        // Ensure selected lesson and room belong to the club
         $lesson = Lesson::where('id', $request->lesson_id)->where('club_id', $club->id)->first();
         $room = Room::where('id', $request->room_id)->where('club_id', $club->id)->first();
 
@@ -93,7 +86,6 @@ class CourseController extends Controller
             return redirect()->back()->with('error', 'Lesson or room is not valid for the selected club.');
         }
 
-        // Ensure selected coach has a coach role in the club
         $coach = User::whereHas('roles', function ($query) {
             $query->where('name', 'coach');
         })->whereHas('club', function ($query) use ($club) {
@@ -104,7 +96,6 @@ class CourseController extends Controller
             return redirect()->back()->with('error', 'Selected coach is not valid for the selected club.');
         }
 
-        // Create the course
         Course::create([
             'club_id' => $club->id,
             'lesson_id' => $lesson->id,
@@ -121,7 +112,6 @@ class CourseController extends Controller
     {
         $course = Course::find($id);
 
-        // Delete the course
         $course->delete();
 
         return redirect()->route('admin.courses.index')->with('message', 'Course deleted successfully.');
@@ -129,13 +119,10 @@ class CourseController extends Controller
 
     public function edit($id)
     {
-        // Find the course by ID
         $course = Course::findOrFail($id);
 
-        // Fetch the currently authenticated user
         $user = Auth::user();
 
-        // Check if the logged-in user is a manager of a club
         $club = Club::whereHas('users', function ($query) use ($user) {
             $query->where('id', $user->id)
                 ->whereHas('roles', function ($roleQuery) {
@@ -143,12 +130,10 @@ class CourseController extends Controller
                 });
         })->first();
 
-        // If the user does not belong to any club, show a message
         if (!$club) {
             return redirect()->route('admin.courses.index')->with('message', 'Only manager can edit courses.');
         }
 
-        // Restrict lessons and rooms to the manager's club
         $lessons = Lesson::where('club_id', $club->id)->get();
         $rooms = Room::where('club_id', $club->id)->get();
 
@@ -163,20 +148,16 @@ class CourseController extends Controller
 
     public function update(CourseRequest $request, $id)
     {
-        // Validate the request
         $request->validated();
 
-        // Find the course by ID
         $course = Course::findOrFail($id);
 
-        // Get the associated club for the course
         $club = $course->club;
 
         if (!$club) {
             return redirect()->back()->with('error', 'Associated club is invalid.');
         }
 
-        // Update the course details
         $course->update([
             'lesson_id' => $request->lesson_id,
             'room_id' => $request->room_id,

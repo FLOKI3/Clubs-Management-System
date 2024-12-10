@@ -15,7 +15,6 @@ class LessonController extends Controller
     {
         $user = Auth::user();
     
-        // Get the club associated with the logged-in manager
         $club = Club::whereHas('users', function ($query) use ($user) {
             $query->where('id', $user->id)
                 ->whereHas('roles', function ($roleQuery) {
@@ -45,7 +44,6 @@ class LessonController extends Controller
     {
         $user = Auth::user();
         
-        // Get the club associated with the logged-in manager
         $club = Club::whereHas('users', function ($query) use ($user) {
             $query->where('id', $user->id)
                 ->whereHas('roles', function ($roleQuery) {
@@ -75,7 +73,6 @@ class LessonController extends Controller
     {
         $user = Auth::user();
 
-        // Get the club associated with the logged-in manager
         $club = Club::whereHas('users', function ($query) use ($user) {
             $query->where('id', $user->id)
                 ->whereHas('roles', function ($roleQuery) {
@@ -102,7 +99,6 @@ class LessonController extends Controller
         
         $validated = $request->validated();
 
-        // Get the club associated with the logged-in manager
         $club = Club::whereHas('users', function ($query) use ($user) {
             $query->where('id', $user->id)
                 ->whereHas('roles', function ($roleQuery) {

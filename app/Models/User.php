@@ -61,7 +61,7 @@ class User extends Authenticatable implements HasMedia
 
     public function courses()
 {
-    return $this->hasMany(Course::class, 'coach_id'); // Ensure 'coach_id' matches your database column
+    return $this->hasMany(Course::class, 'coach_id'); 
 }
 
 

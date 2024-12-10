@@ -29,8 +29,7 @@ class ClubController extends Controller
 
     public function index()
     {
-        $clubs = Club::with('users')->get(); // Assuming a relationship with users
-        // Retrieve all managers for each club
+        $clubs = Club::with('users')->get(); 
         $managers = $clubs->mapWithKeys(function ($club) {
             $managers = $club->users()->whereHas('roles', function ($query) {
                 $query->where('name', 'manager');
@@ -43,17 +42,13 @@ class ClubController extends Controller
 
     public function destroy(Club $club)
     {
-        // Retrieve all users assigned to the club
         $users = $club->users;
 
         foreach ($users as $user) {
-            // Check if the user has the manager role
             if ($user->hasRole('manager')) {
-                // Remove the manager role
                 $user->removeRole('manager');
             }
 
-            // Optionally clear the club_id from the user
             $user->update(['club_id' => null]);
         }
 

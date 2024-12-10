@@ -22,10 +22,8 @@ class UserController extends Controller
         $user = Auth::user();
 
     if ($user->hasRole('manager') && $user->club_id) {
-        // If the logged-in user is a manager, show only users assigned to their club
         $users = User::where('club_id', $user->club_id)->get();
     } else {
-        // For other roles (e.g., admin), show all users
         $users = User::with('club')->get();
     }
         return view('admin.users.index', compact('users'));
@@ -50,7 +48,6 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        // Validate the incoming data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
@@ -58,21 +55,19 @@ class UserController extends Controller
             'phone_number' => 'required|string|max:15',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'roles' => ['array', 'nullable'],
-            'club_id' => ['nullable', 'exists:clubs,id'], // Validate club selection
-            'role' => ['nullable', 'in:manager,coach'], // Ensure valid role selection
+            'club_id' => ['nullable', 'exists:clubs,id'], 
+            'role' => ['nullable', 'in:manager,coach'], 
         ]);
 
-        // Update the user's data
         $user->update([
             'name' => $validatedData['name'],
             'first_name' => $validatedData['first_name'],
             'last_name' => $validatedData['last_name'],
             'phone_number' => $validatedData['phone_number'],
             'email' => $validatedData['email'],
-            'club_id' => $validatedData['club_id'] ?? $user->club_id, // Only update if club_id is provided
+            'club_id' => $validatedData['club_id'] ?? $user->club_id, 
         ]);
 
-        // Sync roles if they exist in the request
         if (isset($validatedData['roles']) && !empty($validatedData['roles'])) {
             $roles = Role::whereIn('name', $validatedData['roles'])->get();
             $user->syncRoles($roles);
@@ -80,12 +75,10 @@ class UserController extends Controller
             $user->syncRoles([]);
         }
 
-        // Assign the new role if provided in the request
         if (isset($validatedData['role']) && $validatedData['role']) {
             $user->syncRoles([$validatedData['role']]);
         }
 
-        // Handle profile picture update if provided
         if ($request->hasFile('profile_picture')) {
             $user->clearMediaCollection('profile_pictures');
             $user->addMediaFromRequest('profile_picture')->toMediaCollection('profile_pictures');
@@ -126,7 +119,6 @@ class UserController extends Controller
 
         $user->assignRole($request->role);
 
-        // Auto-assign club_id if the user is a manager
         if ($user->hasRole('manager') && $user->club) {
             $validated['club_id'] = $user->club->id;
         }

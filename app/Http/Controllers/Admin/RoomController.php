@@ -15,7 +15,6 @@ class RoomController extends Controller
     {
         $user = Auth::user();
 
-        // Get the club associated with the logged-in manager
         $club = Club::whereHas('users', function ($query) use ($user) {
             $query->where('id', $user->id)
                 ->whereHas('roles', function ($roleQuery) {
@@ -23,14 +22,12 @@ class RoomController extends Controller
                 });
         })->first();
 
-        // Retrieve rooms based on the associated club
         if ($club) {
             $rooms = $club->rooms;
         } else {
-            $rooms = Room::all(); // For non-managers or unassigned clubs
+            $rooms = Room::all(); 
         }
 
-        // Check the status of each room based on active courses
         foreach ($rooms as $room) {
             $activeCourse = $room->courses()
                 ->where('startTime', '<=', now())
@@ -47,7 +44,6 @@ class RoomController extends Controller
     {
         $user = Auth::user();
 
-        // Get the club associated with the logged-in manager
         $club = Club::whereHas('users', function ($query) use ($user) {
             $query->where('id', $user->id)
                 ->whereHas('roles', function ($roleQuery) {
@@ -55,12 +51,10 @@ class RoomController extends Controller
                 });
         })->first();
 
-        // If the user is a manager and has a club
         if ($club) {
             return view('admin.rooms.create', compact('club'));
         }
 
-        // If the user is not a manager or no club is found, show all clubs
         $clubs = Club::all();
         return view('admin.rooms.create', compact('clubs'));
     }
@@ -78,7 +72,6 @@ class RoomController extends Controller
     {
         $user = Auth::user();
 
-        // Get the club associated with the logged-in manager
         $club = Club::whereHas('users', function ($query) use ($user) {
             $query->where('id', $user->id)
                 ->whereHas('roles', function ($roleQuery) {
@@ -86,7 +79,6 @@ class RoomController extends Controller
                 });
         })->first();
 
-        // If the user is a manager, check the room's club
         if ($club) {
             if ($room->club_id !== $club->id) {
                 return redirect()->route('admin.rooms.index')->with('error', 'You can only edit rooms in your assigned club.');
@@ -95,7 +87,6 @@ class RoomController extends Controller
             return view('admin.rooms.edit', compact('room', 'club'));
         }
 
-        // If the user is not a manager, allow selection of all clubs
         $clubs = Club::all();
         return view('admin.rooms.edit', compact('room', 'clubs'));
     }
@@ -107,7 +98,6 @@ class RoomController extends Controller
 
         $validated = $request->validated();
 
-        // Check if the user is a manager and validate the club assignment
         $club = Club::whereHas('users', function ($query) use ($user) {
             $query->where('id', $user->id)
                 ->whereHas('roles', function ($roleQuery) {

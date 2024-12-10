@@ -24,33 +24,21 @@ class Course extends Model
         'endTime',
     ];
 
-    /**
-     * Get the club that owns the course.
-     */
     public function club()
     {
         return $this->belongsTo(Club::class);
     }
 
-    /**
-     * Get the lesson associated with the course.
-     */
     public function lesson()
     {
         return $this->belongsTo(Lesson::class);
     }
 
-    /**
-     * Get the coach assigned to the course.
-     */
     public function coach()
     {
         return $this->belongsTo(User::class, 'coach_id');
     }
 
-    /**
-     * Get the room assigned to the course.
-     */
     public function room()
     {
         return $this->belongsTo(Room::class);
