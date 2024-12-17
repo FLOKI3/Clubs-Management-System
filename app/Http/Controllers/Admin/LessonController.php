@@ -64,7 +64,11 @@ class LessonController extends Controller
         
         $validated = $request->validated();
 
-        Lesson::create($validated);
+        $lesson = Lesson::create($validated);
+
+        if ($request->hasFile('lessons_logo')) {
+            $lesson->addMediaFromRequest('lessons_logo')->toMediaCollection('lessons_logo');
+        }
 
         return redirect()->route('admin.lessons.index')->with('message', 'Lesson created successfully!');
     }
