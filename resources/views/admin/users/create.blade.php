@@ -16,7 +16,7 @@
                                         Username</label>
                                     <input type="text" id="name" name="name"
                                         class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
-                                        placeholder="Username" value="">
+                                        placeholder="Username" value="{{ old('name') }}">
                                         @error('name')
                                             <span class="text-red-500 text-sm">{{ $message }}</span>
                                         @enderror
@@ -28,7 +28,7 @@
                                         First name</label>
                                     <input type="text" id="first_name" name="first_name"
                                         class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
-                                        placeholder="First name" value="">
+                                        placeholder="First name" value="{{ old('first_name') }}">
                                         @error('first_name')
                                             <span class="text-red-500 text-sm">{{ $message }}</span>
                                         @enderror
@@ -39,7 +39,7 @@
                                         Last name</label>
                                     <input type="text" id="last_name" name="last_name"
                                         class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
-                                        placeholder="Last name" value="">
+                                        placeholder="Last name" value="{{ old('last_name') }}">
                                         @error('last_name')
                                             <span class="text-red-500 text-sm">{{ $message }}</span>
                                         @enderror
@@ -51,7 +51,7 @@
                                     Phone N°</label>
                                 <input type="text" id="phone_number" name="phone_number"
                                     class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
-                                    placeholder="+123456789" value="">
+                                    placeholder="+123456789" value="{{ old('phone_number') }}">
                                     @error('phone_number')
                                             <span class="text-red-500 text-sm">{{ $message }}</span>
                                         @enderror
@@ -62,7 +62,7 @@
                                     Email</label>
                                 <input type="email" id="email" name="email"
                                     class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
-                                    placeholder="email@gmail.com" value="">
+                                    placeholder="email@gmail.com" value="{{ old('email') }}">
                                     @error('email')
                                             <span class="text-red-500 text-sm">{{ $message }}</span>
                                         @enderror
