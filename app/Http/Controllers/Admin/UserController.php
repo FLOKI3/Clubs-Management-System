@@ -100,7 +100,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'phone_number' => ['nullable', 'string', 'max:255'],
+            'phone_number' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'club_id' => ['nullable', 'exists:clubs,id'], 
