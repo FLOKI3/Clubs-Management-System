@@ -16,16 +16,22 @@
                                         Username</label>
                                     <input type="text" id="name" name="name"
                                         class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
-                                        placeholder="Username" value="" required>
+                                        placeholder="Username" value="">
+                                        @error('name')
+                                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                                        @enderror
                                 </div>
+                                
                                 <div class="w-full">
                                     <label for="first_name"
                                         class="block mb-2 text-sm font-medium text-indigo-900 dark:text-black">
                                         First name</label>
                                     <input type="text" id="first_name" name="first_name"
                                         class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
-                                        placeholder="First name" value=""
-                                        required>
+                                        placeholder="First name" value="">
+                                        @error('first_name')
+                                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                                        @enderror
                                 </div>
                                 <div class="w-full">
                                     <label for="last_name"
@@ -33,7 +39,10 @@
                                         Last name</label>
                                     <input type="text" id="last_name" name="last_name"
                                         class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
-                                        placeholder="Last name" value="" required>
+                                        placeholder="Last name" value="">
+                                        @error('last_name')
+                                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                                        @enderror
                                 </div>
                             </div>
                             <div class="mb-2 sm:mb-6">
@@ -42,7 +51,10 @@
                                     Phone N°</label>
                                 <input type="text" id="phone_number" name="phone_number"
                                     class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
-                                    placeholder="+123456789" value="" required>
+                                    placeholder="+123456789" value="">
+                                    @error('phone_number')
+                                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                                        @enderror
                             </div>
                             <div class="mb-2 sm:mb-6">
                                 <label for="email"
@@ -50,7 +62,10 @@
                                     Email</label>
                                 <input type="email" id="email" name="email"
                                     class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
-                                    placeholder="email@gmail.com" value="" required>
+                                    placeholder="email@gmail.com" value="">
+                                    @error('email')
+                                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                                        @enderror
                             </div>
                             <div class="mb-2 sm:mb-6">
                                 <label for="email"
@@ -58,7 +73,10 @@
                                     Password</label>
                                 <input type="password" id="password" name="password"
                                     class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
-                                    value="" required>
+                                    value="">
+                                    @error('password')
+                                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                                        @enderror
                             </div>
                             <div class="mb-2 sm:mb-6">
                                 <label for="email"
@@ -66,14 +84,17 @@
                                     Confirm Password</label>
                                 <input type="password" id="password_confirmation" name="password_confirmation"
                                     class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
-                                    value="" required>
+                                    value="">
+                                    @error('password_confirmation')
+                                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                                        @enderror
                             </div>
                             @if(Auth::user()->hasRole('manager') && Auth::user()->club)
                             <input type="hidden" name="club_id" value="{{ Auth::user()->club->id }}">
                             @else
                             <div class="mb-2 sm:mb-6">
                             <label class="block mb-2 text-sm font-medium text-indigo-900 dark:text-black">Club</label>
-                            <select name="club_id" id="club_id" class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5" required>
+                            <select name="club_id" id="club_id" class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5">
                                     <option value="" disabled selected>Select Club</option>
                                     @foreach ($clubs as $club)
                                         <option value="{{ $club->id }}" {{ old('club_id') == $club->id ? 'selected' : '' }}>
@@ -88,7 +109,7 @@
                             @endif
                             <div class="mb-2 sm:mb-6">
                             <label class="block mb-2 text-sm font-medium text-indigo-900 dark:text-black">Add Role</label>
-                            <select name="role" id="role" class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5" required>
+                            <select name="role" id="role" class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5">
                                     <option value="" disabled selected>Select Role</option>
                                     <option value="manager" {{ old('role') == 'manager' ? 'selected' : '' }}>Manager</option>
                                     <option value="coach" {{ old('role') == 'coach' ? 'selected' : '' }}>Coach</option>
