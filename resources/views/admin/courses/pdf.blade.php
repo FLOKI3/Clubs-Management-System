@@ -106,7 +106,7 @@
             
 
             <!-- Table Title -->
-            <h4>Class Schedule Table</h4>
+            <h4>Courses Schedule</h4>
 
             <!-- Table Section -->
             <div class="table-wrap">
