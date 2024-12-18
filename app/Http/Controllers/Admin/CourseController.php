@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Room;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
@@ -167,5 +168,37 @@ class CourseController extends Controller
         ]);
 
         return redirect()->route('admin.courses.index')->with('message', 'Course updated successfully.');
+    }
+
+    public function exportPdf()
+    {
+        $user = Auth::user();
+
+    if ($user->hasRole('manager')) {
+        $club = Club::whereHas('users', function ($query) use ($user) {
+            $query->where('id', $user->id)
+                  ->whereHas('roles', function ($roleQuery) {
+                      $roleQuery->where('name', 'manager');
+                  });
+        })->first();
+
+        if ($club) {
+            $courses = Course::where('club_id', $club->id)
+                ->whereBetween('startTime', [now()->startOfWeek(), now()->endOfWeek()])
+                ->get();
+        } else {
+            return redirect()->route('admin.courses.index')->with('error', 'You are not assigned to any club.');
+        }
+    } elseif ($user->hasRole('coach')) {
+        $courses = Course::where('coach_id', $user->id)
+            ->whereBetween('startTime', [now()->startOfWeek(), now()->endOfWeek()])
+            ->get();
+    } else {
+        $courses = Course::whereBetween('startTime', [now()->startOfWeek(), now()->endOfWeek()])
+            ->get();
+    }
+
+        $pdf = Pdf::loadView('admin.courses.pdf', compact('courses'));
+        return $pdf->download('week_courses.pdf');
     }
 }

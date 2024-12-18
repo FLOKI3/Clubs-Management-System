@@ -175,6 +175,9 @@ Route::middleware(['auth', 'permission:Dashboard access'])->name('admin.')->pref
     Route::put('/courses/{course}', [CourseController::class, 'update'])
         ->name('courses.update')
         ->middleware('permission:Edit sessions');
+    
+    // PDF COURSES
+    Route::get('/courses/export-pdf', [CourseController::class, 'exportPdf'])->name('courses.exportPdf');
 });
 
 Route::middleware('auth')->group(function () {
