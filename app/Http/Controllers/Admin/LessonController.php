@@ -117,7 +117,7 @@ class LessonController extends Controller
             $lesson->addMediaFromRequest('lessons_logo')->toMediaCollection('lessons_logo');
         }
 
-        return redirect()->route('admin.lessons.index')->with('message', 'Lesson created successfully!');
+        return redirect()->route('admin.lessons.index')->with('message', 'Lesson updated successfully!');
     }
 
 

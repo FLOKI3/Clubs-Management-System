@@ -57,6 +57,12 @@
             color: #333;
         }
 
+        .table-wrap img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
         .sub-title {
             font-size: 12px;
             color: gray;
@@ -141,12 +147,45 @@
                                             return \Carbon\Carbon::parse($course->startTime)->format('l') === $dayName;
                                         })->skip($row)->first();
                                     @endphp
-
                                     @if ($dailyCourses)
-                                        <div class="class-title">{{ optional($dailyCourses->club)->name ?? 'No Club' }}</div>
-                                        <div class="sub-title">{{ optional($dailyCourses->coach)->name ?? 'No Coach' }}</div>
+                                        @php
+                                            $lessonMedia = $dailyCourses->lesson ? $dailyCourses->lesson->getFirstMedia('lessons_logo') : null;
+                                            $lessonImageBase64 = '';
+                                    
+                                            if ($lessonMedia) {
+                                                $path = storage_path('app/public/' . $lessonMedia->id . '/' . $lessonMedia->file_name);
+                                                if (file_exists($path)) {
+                                                    $lessonImageBase64 = base64_encode(file_get_contents($path));
+                                                }
+                                            }
+                                        @endphp
+                                    
+                                        @if($lessonImageBase64)
+                                            <img src="data:image/{{ pathinfo($path, PATHINFO_EXTENSION) }};base64,{{ $lessonImageBase64 }}" alt="Lesson Logo" class="w-8 h-8 rounded-full object-cover" style="display: block; margin: 0 auto; margin-bottom: 5px;">
+                                        @else
+                                            @php
+                                                $defaultPath = public_path('assets/images/no-image.png');
+                                                $defaultImageBase64 = file_exists($defaultPath) ? base64_encode(file_get_contents($defaultPath)) : '';
+                                            @endphp
+                                    
+                                            @if ($defaultImageBase64)
+                                                <img src="data:image/png;base64,{{ $defaultImageBase64 }}" alt="Default Lesson Picture" class="w-8 h-8 rounded-full" style="display: block; margin: 0 auto; margin-bottom: 5px;">
+                                            @else
+                                                <p>No image available</p>
+                                            @endif
+                                        @endif
                                         <div class="class-title">
-                                            {{ optional($dailyCourses->lesson)->name ?? 'No Lesson' }}
+                                            {{ optional($dailyCourses->lesson)->name ?? 'No Coach' }}
+                                        </div>
+                                        @if (!$hideClub)
+                                        <div class="sub-title">
+                                                {{ optional($dailyCourses->club)->name ?? 'No Club' }}
+                                        </div>
+                                        @else
+                                        <p class="sub-title"></p>
+                                        @endif
+                                        <div class="class-title">
+                                            {{ optional($dailyCourses->coach)->name ?? 'No Lesson' }}
                                         </div>
                                         <p class="sub-title">{{ optional($dailyCourses->room)->name ?? 'No Room' }}</p>
                                         <div class="time-text">
