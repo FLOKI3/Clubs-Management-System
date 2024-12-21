@@ -200,7 +200,7 @@ class CourseController extends Controller
 
     $hideClub = $user->hasRole('manager') || $user->hasRole('coach');
 
-        $pdf = Pdf::loadView('admin.courses.pdf', compact('courses', 'hideClub'));
+        $pdf = Pdf::loadView('admin.courses.pdf2', compact('courses', 'hideClub'));
         return $pdf->download('week_courses.pdf');
     }
 }
