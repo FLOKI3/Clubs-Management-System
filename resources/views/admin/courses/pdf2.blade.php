@@ -138,13 +138,11 @@
             <!-- Logo Section -->
             <div class="heading-section">
                 <!-- Week Range -->
-                @php
-                    $startOfWeek = \Carbon\Carbon::now()->startOfWeek();
-                    $endOfWeek = \Carbon\Carbon::now()->endOfWeek();
-                @endphp
-                <div class="week-range">
-                    Semaine: {{ $startOfWeek->format('d/m/Y') }} - {{ $endOfWeek->format('d/m/Y') }}
-                </div>
+                @if(isset($startOfWeek) && isset($endOfWeek))
+                    <div class="week-range">
+                        Semaine: {{ $startOfWeek->format('d/m/Y') }} - {{ $endOfWeek->format('d/m/Y') }}
+                    </div>
+                @endif
 
                 <!-- Logo -->
                 @php

@@ -170,37 +170,54 @@ class CourseController extends Controller
         return redirect()->route('admin.courses.index')->with('message', 'Course updated successfully.');
     }
 
-    public function exportPdf()
+    public function exportPdf(Request $request)
     {
         $user = Auth::user();
+        $week = $request->input('week', 'current');
 
-    if ($user->hasRole('manager')) {
-        $club = Club::whereHas('users', function ($query) use ($user) {
-            $query->where('id', $user->id)
-                  ->whereHas('roles', function ($roleQuery) {
-                      $roleQuery->where('name', 'manager');
-                  });
-        })->first();
+        switch ($week) {
+            case 'second':
+                $startOfWeek = now()->addWeek()->startOfWeek();
+                $endOfWeek = now()->addWeek()->endOfWeek();
+                break;
+            case 'third':
+                $startOfWeek = now()->addWeeks(2)->startOfWeek();
+                $endOfWeek = now()->addWeeks(2)->endOfWeek();
+                break;
+            case 'current':
+            default:
+                $startOfWeek = now()->startOfWeek();
+                $endOfWeek = now()->endOfWeek();
+                break;
+        }
 
-        if ($club) {
-            $courses = Course::where('club_id', $club->id)
-                ->whereBetween('startTime', [now()->startOfWeek(), now()->endOfWeek()])
+        if ($user->hasRole('manager')) {
+            $club = Club::whereHas('users', function ($query) use ($user) {
+                $query->where('id', $user->id)
+                    ->whereHas('roles', function ($roleQuery) {
+                        $roleQuery->where('name', 'manager');
+                    });
+            })->first();
+
+            if ($club) {
+                $courses = Course::where('club_id', $club->id)
+                    ->whereBetween('startTime', [$startOfWeek, $endOfWeek])
+                    ->get();
+            } else {
+                return redirect()->route('admin.courses.index')->with('error', 'You are not assigned to any club.');
+            }
+        } elseif ($user->hasRole('coach')) {
+            $courses = Course::where('coach_id', $user->id)
+                ->whereBetween('startTime', [$startOfWeek, $endOfWeek])
                 ->get();
         } else {
-            return redirect()->route('admin.courses.index')->with('error', 'You are not assigned to any club.');
+            $courses = Course::whereBetween('startTime', [$startOfWeek, $endOfWeek])
+                ->get();
         }
-    } elseif ($user->hasRole('coach')) {
-        $courses = Course::where('coach_id', $user->id)
-            ->whereBetween('startTime', [now()->startOfWeek(), now()->endOfWeek()])
-            ->get();
-    } else {
-        $courses = Course::whereBetween('startTime', [now()->startOfWeek(), now()->endOfWeek()])
-            ->get();
-    }
 
-    $hideClub = $user->hasRole('manager') || $user->hasRole('coach');
+        $hideClub = $user->hasRole('manager') || $user->hasRole('coach');
 
-        $pdf = Pdf::loadView('admin.courses.pdf2', compact('courses', 'hideClub'));
-        return $pdf->download('week_courses.pdf');
+        $pdf = Pdf::loadView('admin.courses.pdf2', compact('courses', 'hideClub', 'startOfWeek', 'endOfWeek', 'week'));
+        return $pdf->download("{$week}_week_courses.pdf");
     }
 }
