@@ -119,6 +119,7 @@
     
         .content img {
             margin-right: 5px;
+            margin-bottom: 7px;
             flex-shrink: 0;
         }
     
