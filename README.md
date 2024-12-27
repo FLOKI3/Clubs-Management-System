@@ -100,5 +100,3 @@ php artisan serve
   - **Password:** `password`  
   - **Email:** `salma.bouhriz@gmail.com`  
   - **Password:** `password`  
- 
-
