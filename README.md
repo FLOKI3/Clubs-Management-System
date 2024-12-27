@@ -81,24 +81,24 @@ php artisan serve
   - **Email:** `admin@gmail.com`  
   - **Password:** `password`  
 - **Manager Account**  
-  - **Email:** `alice.johnson@gmail.com`  
-  - **Password:** `password`  
-  - **Email:** `bob.smith@gmail.com`  
-  - **Password:** `password`  
-  - **Email:** `carol.lee@gmail.com`  
-  - **Password:** `password`  
+  - **Email:** `club@devaga.com`  
+  - **Password:** `password`    
 - **Coach Account**  
-  - **Email:** `david.brown@gmail.com`  
+  - **Email:** `ahmed.bennani@gmail.com`  
   - **Password:** `password`  
-  - **Email:** `evelyn.davis@gmail.com`  
+  - **Email:** `hind.elmansouri@gmail.com`  
   - **Password:** `password`  
-  - **Email:** `franklin.wilson@gmail.com`  
+  - **Email:** `rachid.elfassi@gmail.com`  
   - **Password:** `password`  
-  - **Email:** `grace.thomas@gmail.com`  
+  - **Email:** `karima.amrani@gmail.com`  
   - **Password:** `password`  
-  - **Email:** `henry.martin@gmail.com`  
+  - **Email:** `mohamed.alaoui@gmail.com`  
   - **Password:** `password`  
-  - **Email:** `isabel.clark@gmail.com`  
+  - **Email:** `fatima.zahra@gmail.com`  
+  - **Password:** `password`  
+  - **Email:** `youssef.haddadi@gmail.com`  
+  - **Password:** `password`  
+  - **Email:** `salma.bouhriz@gmail.com`  
   - **Password:** `password`  
  
 
